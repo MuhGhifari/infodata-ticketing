@@ -33,7 +33,7 @@ a{color:inherit}
 .brand img{height:44px;width:auto;display:block}
 .brand .bt{font-weight:700;font-size:14px;line-height:1.2}
 .brand .bs{font-size:11px;color:var(--muted);margin-top:2px}
-.nav{padding:10px 12px;display:flex;flex-direction:column;gap:2px}
+.nav{padding:10px 12px;display:flex;flex-direction:column;gap:2px;overflow-y:auto;flex:1;min-height:0}
 .nav .sec{font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.07em;padding:14px 10px 6px}
 .nav a{display:flex;align-items:center;gap:10px;padding:9px 10px;border-radius:8px;color:var(--ink-2);text-decoration:none;font-weight:500;cursor:pointer}
 .nav a:hover{background:var(--line-2)}
@@ -342,7 +342,18 @@ select.input{appearance:none;padding-right:30px;cursor:pointer;background-image:
 .me .iconbtn{margin-left:auto}
 .me>div{min-width:0}
 .nav a .tsq{width:9px;height:9px;border-radius:3px;flex:none;margin:0 4px}
-.nav a small{font-size:10.5px;font-weight:700;color:var(--brand-700);background:var(--brand-50);border-radius:4px;padding:0 5px;margin-left:-4px}
+.nav .grp{margin-top:8px}
+.nav .grp.has-active{color:var(--ink);font-weight:700}
+.nav .grp .chev{margin-left:auto;display:grid;color:var(--muted)}
+.nav .grp .count+.chev{margin-left:6px}
+.sub-nav{display:flex;flex-direction:column;gap:2px;margin:2px 0 4px 18px;padding-left:8px;border-left:1px solid var(--line)}
+.sub-nav a{padding:7px 10px;font-size:13.5px}
+.nav-q{position:relative;margin:4px 0 2px}
+.nav-q svg{position:absolute;left:9px;top:9px;color:var(--muted)}
+.nav-q input{width:100%;height:32px;border:1px solid var(--line);border-radius:7px;background:var(--bg);padding:0 8px 0 29px;font-size:13px;outline:none}
+.nav-q input:focus{border-color:var(--brand);background:#fff;box-shadow:0 0 0 3px var(--brand-50)}
+.nav-empty{font-size:12px;color:var(--muted);padding:6px 10px}
+.nav a small{white-space:nowrap;font-size:10px;font-weight:700;color:var(--brand-700);background:var(--brand-50);border-radius:4px;padding:0 5px;margin-left:-4px}
 .tpick{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px}
 .tpick .chip b{font-weight:700;color:var(--muted);margin-left:2px}
 .tpick .chip.on b{color:var(--brand-700)}
@@ -511,6 +522,7 @@ const IC={
  flame:'<path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.07-2.14-.22-4.05 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.15.43-2.29 1-3a2.5 2.5 0 0 0 2.5 2.5z"/>',
  arrow:'<path d="M5 12h14M13 6l6 6-6 6"/>',
  sort:'<path d="m7 15 5 5 5-5M7 9l5-5 5 5"/>',
+ search2:'<circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/>',
  logout:'<path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/>',
  eye:'<path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/>',
  lock:'<rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/>',
@@ -714,8 +726,9 @@ function render(){
   VIEW=(location.hash.slice(1)||'dashboard');if(!VIEWS[VIEW]||(VIEW==='admin'&&!isAdmin()))VIEW='dashboard';
   renderNav();VIEWS[VIEW]();renderDrawer();
 }
-let BOARD_TEAM='';
-function openBoard(team){BOARD_TEAM=team||'';F.team='';F.mine=false;go('papan')}
+let BOARD_TEAM='',NAV_BOARDS=false,NAV_Q='';
+function filterNavTeams(){const q=NAV_Q.trim().toLowerCase(),items=[...document.querySelectorAll('.sub-nav a[data-n]')];let n=0;items.forEach(x=>{const ok=!q||x.dataset.n.includes(q);x.style.display=ok?'':'none';n+=ok});const e=$('.nav-empty');if(e)e.hidden=!!n}
+function openBoard(team){BOARD_TEAM=team||'';NAV_BOARDS=true;F.team='';F.mine=false;go('papan')}
 
 /* ---------- login ---------- */
 const DEMO=['u0','u1','u2'];
@@ -761,10 +774,14 @@ function renderNav(){
    ${a(VIEW==='dashboard',"go('dashboard')",icon('dash',17),'Dashboard',br,true)}
    ${a(VIEW==='papan'&&F.mine,`BOARD_TEAM='${me.team||''}';F.team='';F.mine=true;go('papan')`,icon('me',17),'Tiket Saya',mine.length)}
    ${a(VIEW==='tiket',"go('tiket')",icon('list',17),'Daftar Tiket',null)}
-   <div class="sec">Papan tim</div>
-   ${a(onBoard&&!BOARD_TEAM,"openBoard('')",icon('board',17),'Semua tim',act.length)}
-   ${teams.map(tm=>a(onBoard&&BOARD_TEAM===tm.id,`openBoard('${tm.id}')`,`<span class="tsq" style="background:${tm.color}"></span>`,`${esc(tm.name)}${tm.id===me.team?' <small>Tim saya</small>':''}`,act.filter(t=>t.team===tm.id).length)).join('')}
+   <a class="grp ${onBoard?'has-active':''}" onclick="NAV_BOARDS=!NAV_BOARDS;renderNav();if(NAV_BOARDS)$('#navq')?.focus()" role="button" aria-expanded="${NAV_BOARDS}">${icon('board',17)}Papan Tim${NAV_BOARDS?'':`<span class="count">${act.length}</span>`}<span class="chev">${icon(NAV_BOARDS?'up':'down',15)}</span></a>
+   ${NAV_BOARDS?`<div class="sub-nav">
+     <div class="nav-q">${icon('search2',14)}<input type="search" id="navq" placeholder="Cari tim…" aria-label="Cari papan tim" value="${esc(NAV_Q)}" oninput="NAV_Q=this.value;filterNavTeams()" onkeydown="if(event.key==='Enter'){const f=[...document.querySelectorAll('.sub-nav a[data-n]')].find(x=>x.style.display!=='none');f&&f.click()}"></div>
+     ${a(onBoard&&!BOARD_TEAM,"openBoard('')",`<span class="tsq" style="background:var(--muted)"></span>`,'Semua tim',act.length).replace('<a ','<a data-n="semua tim" ')}
+     ${teams.map(tm=>a(onBoard&&BOARD_TEAM===tm.id,`openBoard('${tm.id}')`,`<span class="tsq" style="background:${tm.color}"></span>`,`${esc(tm.name)}${tm.id===me.team?' <small>Tim saya</small>':''}`,act.filter(t=>t.team===tm.id).length).replace('<a ',`<a data-n="${esc((tm.name+' '+tm.id).toLowerCase())}" `)).join('')}
+     <div class="nav-empty" hidden>Tidak ada tim yang cocok</div></div>`:''}
    ${isAdmin()?`<div class="sec">Pengaturan</div>${a(VIEW==='admin',"go('admin')",icon('settings',17),'Admin',null)}`:''}`;
+  filterNavTeams();
   $('#me').innerHTML=`${av(ME,34)}<div><div class="n">${esc(me.name)}</div><div class="r">${me.role}${me.team?' · '+T(me.team).name:' · Semua tim'}</div></div><button class="iconbtn" onclick="logout()" title="Keluar" aria-label="Keluar">${icon('logout',17)}</button>`;
 }
 function toggleSide(on){$('#side').classList.toggle('open',on);$('#scrim').classList.toggle('on',on)}

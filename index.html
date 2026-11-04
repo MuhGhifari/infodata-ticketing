@@ -439,6 +439,41 @@ select.input{appearance:none;padding-right:30px;cursor:pointer;background-image:
 .toast.out{opacity:0;transform:translateY(8px)}
 @keyframes pop2{from{opacity:0;transform:translateY(8px)}}
 
+/* ---------- picker (searchable select) ---------- */
+.pickbtn{display:flex;align-items:center;gap:8px;text-align:left;cursor:pointer;background:#fff}
+.pickbtn .pv{flex:1;min-width:0;display:flex;align-items:center;gap:8px;overflow:hidden;white-space:nowrap}
+.pickbtn .pv .t{overflow:hidden;text-overflow:ellipsis}
+.pickbtn>svg{color:var(--muted);flex:none}
+.pickbtn[aria-expanded=true]{border-color:var(--brand);box-shadow:0 0 0 3px var(--brand-50)}
+.dotc{width:10px;height:10px;border-radius:50%;flex:none;display:inline-block}
+.pk-ov{position:fixed;inset:0;z-index:55}
+.pk{position:fixed;z-index:56;background:#fff;border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow-lg);display:flex;flex-direction:column;overflow:hidden;animation:fade .12s ease}
+.pk-h{display:none}
+.pk-q{padding:8px;border-bottom:1px solid var(--line-2);position:relative;flex:none}
+.pk-q input{width:100%;height:36px;border:1px solid var(--line);border-radius:8px;padding:0 10px 0 32px;background:var(--bg);outline:none}
+.pk-q input:focus{border-color:var(--brand);background:#fff}
+.pk-q svg{position:absolute;left:19px;top:18px;color:var(--muted)}
+.pk-l{list-style:none;margin:0;padding:6px;overflow-y:auto;overscroll-behavior:contain}
+.pk-o{display:flex;align-items:center;gap:10px;width:100%;border:0;background:none;padding:8px 10px;border-radius:8px;cursor:pointer;text-align:left;color:var(--ink)}
+.pk-o:hover,.pk-o.act{background:var(--line-2)}
+.pk-o .ol{flex:1;min-width:0}
+.pk-o .ol small{display:block;color:var(--muted);font-size:11.5px;font-weight:500}
+.pk-o .ck{color:var(--brand);visibility:hidden;flex:none}
+.pk-o[aria-selected=true]{font-weight:700}
+.pk-o[aria-selected=true] .ck{visibility:visible}
+.pk-empty{padding:16px;color:var(--muted);font-size:13px;text-align:center}
+@keyframes sheet{from{transform:translateY(40px);opacity:.4}}
+@media (max-width:900px){
+  .pk-ov{background:rgba(35,25,23,.38)}
+  .pk{left:0!important;right:0;bottom:0;top:auto!important;width:auto!important;max-height:78vh;border-radius:16px 16px 0 0;border:0;animation:sheet .2s ease}
+  .pk-h{display:flex;justify-content:space-between;align-items:center;padding:12px 12px 4px 18px;font-weight:700;font-size:16px;flex:none}
+  .pk-q{padding:8px 12px 10px}
+  .pk-q svg{left:23px;top:20px}
+  .pk-q input{height:42px}
+  .pk-o{padding:12px 10px;font-size:15px}
+  .pk-l{padding:6px 8px calc(16px + env(safe-area-inset-bottom))}
+}
+
 /* ---------- responsive ---------- */
 @media (max-width:1180px){
   .kpis{grid-template-columns:repeat(2,minmax(0,1fr))}
@@ -524,6 +559,7 @@ select.input{appearance:none;padding-right:30px;cursor:pointer;background-image:
 <div id="login-root"></div>
 <div id="drawer-root"></div>
 <div id="modal-root"></div>
+<div id="pick-root"></div>
 <div id="toast-root"></div>
 
 <script>
@@ -937,7 +973,7 @@ function exportCsv(){
 /* ---------- ticket detail ---------- */
 let openId=null,lastDrawer=null;
 function openDetail(id){openId=id;renderDrawer();setTimeout(()=>$('.drawer .iconbtn')?.focus(),0)}
-function closeDrawer(){openId=null;lastDrawer=null;$('#drawer-root').innerHTML=''}
+function closeDrawer(){closePicker();openId=null;lastDrawer=null;$('#drawer-root').innerHTML=''}
 const FL={team:'tim',prio:'prioritas',type:'jenis',assignee:'penanggung jawab',title:'judul'};
 const fv=(k,v)=>!v?'—':k==='team'?T(v).name:k==='prio'?PRIO[v].label:k==='type'?TYPES[v].label:k==='assignee'?U(v).name:v;
 function evHtml(e){
@@ -968,11 +1004,11 @@ function renderDrawer(){
         <div class="row small"><span>Dibuat ${fmtD(t.created)} WIB</span><span>${isDone(t)?'Selesai '+fmtD(t.resolved):'Batas '+fmtD(s.due)} WIB</span></div>
       </div>
       <div class="fields">
-        <div class="field"><label>Status</label><select class="input" onchange="requestStatus('${t.id}',this.value)">${opt(flow(t.team).map(x=>[x.id,x.label]),t.status)}</select></div>
-        <div class="field"><label>Prioritas</label><select class="input" onchange="editField('${t.id}','prio',this.value)">${opt(Object.entries(PRIO).map(([k,v])=>[k,`${v.label} (SLA ${slaTarget(k)})`]),t.prio)}</select></div>
-        <div class="field"><label>Penanggung jawab</label><select class="input" onchange="editField('${t.id}','assignee',this.value)"><option value="">— Belum ditugaskan —</option>${opt(members(t.team).map(u=>[u.id,u.name+(u.role==='Lead Tim'?' (Lead)':'')]),t.assignee)}</select></div>
-        <div class="field"><label>Tim</label><select class="input" onchange="editField('${t.id}','team',this.value)">${opt(TEAMS.map(x=>[x.id,x.name]),t.team)}</select></div>
-        <div class="field"><label>Jenis</label><select class="input" onchange="editField('${t.id}','type',this.value)">${opt(Object.entries(TYPES).map(([k,v])=>[k,v.label]),t.type)}</select></div>
+        <div class="field"><label>Status</label>${pickBtn('Status',`<span class="dotc" style="background:${ST(t.status).color}"></span><span class="t">${esc(ST(t.status).label)}</span>`,`pickField('${t.id}','status',this)`)}</div>
+        <div class="field"><label>Prioritas</label>${pickBtn('Prioritas',`<span class="dotc" style="background:${PRC[t.prio]}"></span><span class="t">${PRIO[t.prio].label} <span class="muted">· SLA ${slaTarget(t.prio)}</span></span>`,`pickField('${t.id}','prio',this)`)}</div>
+        <div class="field"><label>Penanggung jawab</label>${pickBtn('Penanggung jawab',personVal(t.assignee),`pickField('${t.id}','assignee',this)`)}</div>
+        <div class="field"><label>Tim</label>${pickBtn('Tim',teamVal(t.team),`pickField('${t.id}','team',this)`)}</div>
+        <div class="field"><label>Jenis</label>${pickBtn('Jenis',`<span class="t">${TYPES[t.type].label}</span>`,`pickField('${t.id}','type',this)`)}</div>
         <div class="field"><label>Pelapor</label><div class="val">${who(t.reporter,26)}</div></div>
       </div>
       <section><h4>Deskripsi</h4><div class="desc">${esc(t.desc)}</div></section>
@@ -1004,6 +1040,57 @@ function addStep(tid){const el=$('#newstep'),v=el.value.trim();if(!v){el.focus()
 function delStep(tid,sid){const t=byId(tid),i=t.steps.findIndex(x=>x.id===sid),[x]=t.steps.splice(i,1);t.events.push({at:Date.now(),by:ME,kind:'stepdel',step:x.text});touch(t);render();toast('Langkah dihapus')}
 function renameStep(tid,sid,v){v=v.trim();const t=byId(tid),x=stepById(t,sid);if(!v||v===x.text){render();return}t.events.push({at:Date.now(),by:ME,kind:'stepren',step:x.text,to:v});x.text=v;touch(t);render()}
 function addNote(id){const el=$('#note'),v=el.value.trim();if(!v){el.focus();return}const t=byId(id);t.events.push({at:Date.now(),by:ME,kind:'note',text:v});el.value='';touch(t);render();toast('Catatan disimpan')}
+
+/* ---------- picker: one component for every choice field ---------- */
+let PICK=null;
+const isMobile=()=>matchMedia('(max-width:900px)').matches;
+function openPicker(btn,cfg){
+  closePicker();PICK={...cfg,btn};btn.setAttribute('aria-expanded','true');
+  $('#pick-root').innerHTML=`<div class="pk-ov" onclick="closePicker()"></div>
+   <div class="pk" role="dialog" aria-label="${esc(cfg.title)}">
+     <div class="pk-h"><span>${esc(cfg.title)}</span><button class="iconbtn" onclick="closePicker()" aria-label="Tutup">${icon('x',18)}</button></div>
+     ${cfg.search?`<div class="pk-q">${icon('search2',15)}<input id="pkq" type="search" placeholder="Cari ${esc(cfg.title.toLowerCase())}…" autocomplete="off" oninput="pkFilter(this.value)" aria-label="Cari"></div>`:''}
+     <ul class="pk-l" role="listbox">${cfg.opts.map((o,i)=>`<li><button type="button" class="pk-o" role="option" data-i="${i}" data-s="${esc((o.l+' '+(o.sub||'')).toLowerCase())}" aria-selected="${o.v===cfg.cur}" onclick="pkPick(${i})">${o.ic||''}<span class="ol">${esc(o.l)}${o.sub?`<small>${esc(o.sub)}</small>`:''}</span><span class="ck">${icon('check',16,2.6)}</span></button></li>`).join('')}</ul>
+     <div class="pk-empty" hidden>Tidak ada yang cocok</div>
+   </div>`;
+  const pk=$('.pk');
+  if(!isMobile()){                                   // desktop: drop down under the field, flip up if there is no room
+    const r=btn.getBoundingClientRect(),w=Math.max(r.width,240),below=innerHeight-r.bottom-12,above=r.top-12;
+    const up=below<260&&above>below,h=Math.min(360,up?above:below);
+    Object.assign(pk.style,{left:Math.min(r.left,innerWidth-w-8)+'px',width:w+'px',maxHeight:h+'px',top:up?'auto':(r.bottom+6)+'px',bottom:up?(innerHeight-r.top+6)+'px':'auto'});
+    ($('#pkq')||pk.querySelector('.pk-o[aria-selected=true]')||pk.querySelector('.pk-o'))?.focus();
+  }
+  pk.querySelector('.pk-o[aria-selected=true]')?.scrollIntoView({block:'nearest'});
+  if(isMobile())pkFit();
+}
+/* iOS: keep the bottom sheet above the on-screen keyboard */
+function pkFit(){const pk=$('.pk'),vv=window.visualViewport;if(!pk||!vv||!isMobile())return;
+  pk.style.bottom=Math.max(0,innerHeight-vv.height-vv.offsetTop)+'px';pk.style.maxHeight=Math.round(vv.height*.85)+'px'}
+window.visualViewport?.addEventListener('resize',pkFit);window.visualViewport?.addEventListener('scroll',pkFit);
+function closePicker(){if(!PICK)return;PICK.btn?.setAttribute('aria-expanded','false');const b=PICK.btn;PICK=null;$('#pick-root').innerHTML='';if(b&&document.body.contains(b)&&!isMobile())b.focus()}
+function pkFilter(q){q=q.trim().toLowerCase();let n=0;document.querySelectorAll('.pk-o').forEach(o=>{const ok=!q||o.dataset.s.includes(q);o.parentElement.hidden=!ok;n+=ok;o.classList.remove('act')});$('.pk-empty').hidden=!!n;const f=[...document.querySelectorAll('.pk-o')].find(o=>!o.parentElement.hidden);f?.classList.add('act')}
+function pkPick(i){const c=PICK,o=c.opts[i];closePicker();if(o.v!==c.cur)c.pick(o.v)}
+function pkKey(e){if(!PICK)return false;const vis=[...document.querySelectorAll('.pk-o')].filter(o=>!o.parentElement.hidden);
+  if(e.key==='Escape'){closePicker();return true}
+  if(e.key==='ArrowDown'||e.key==='ArrowUp'){e.preventDefault();let i=vis.findIndex(o=>o.classList.contains('act')||o===document.activeElement);i=e.key==='ArrowDown'?Math.min(vis.length-1,i+1):Math.max(0,i-1);vis.forEach(o=>o.classList.remove('act'));vis[i]?.classList.add('act');if(document.activeElement!==$('#pkq'))vis[i]?.focus();vis[i]?.scrollIntoView({block:'nearest'});return true}
+  if(e.key==='Enter'&&document.activeElement===$('#pkq')){e.preventDefault();(vis.find(o=>o.classList.contains('act'))||vis[0])?.click();return true}
+  return false}
+const pickBtn=(label,html,click)=>`<button type="button" class="input pickbtn" aria-haspopup="listbox" aria-expanded="false" aria-label="${esc(label)}" onclick="${click}"><span class="pv">${html}</span>${icon('down',15)}</button>`;
+const personOpt=u=>({v:u.id,l:u.name,sub:u.role,ic:av(u.id,26)});
+const teamOpt=x=>({v:x.id,l:x.name,sub:`${members(x.id).length} anggota`,ic:`<span class="tsq" style="background:${x.color};width:10px;height:10px;border-radius:3px;flex:none"></span>`});
+const personVal=id=>id?`${av(id,22)}<span class="t">${esc(U(id).name)}</span>`:`${av(null,22)}<span class="t muted">Belum ditugaskan</span>`;
+const teamVal=id=>`<span class="dotc" style="background:${T(id).color};border-radius:3px"></span><span class="t">${esc(T(id).name)}</span>`;
+function pickField(tid,k,btn){const t=byId(tid);let c;
+  if(k==='assignee')c={title:'Penanggung jawab',search:true,cur:t.assignee||'',opts:[{v:'',l:'Belum ditugaskan',ic:av(null,26)},...members(t.team).map(personOpt)]};
+  else if(k==='team')c={title:'Tim',search:true,cur:t.team,opts:TEAMS.map(teamOpt)};
+  else if(k==='status')c={title:'Status',search:flow(t.team).length>8,cur:t.status,opts:flow(t.team).map(x=>({v:x.id,l:x.label,sub:CATS[x.cat].label,ic:`<span class="dotc" style="background:${x.color}"></span>`}))};
+  else if(k==='prio')c={title:'Prioritas',cur:t.prio,opts:Object.entries(PRIO).map(([p,v])=>({v:p,l:v.label,sub:'SLA '+slaTarget(p),ic:`<span class="dotc" style="background:${PRC[p]}"></span>`}))};
+  else c={title:'Jenis',cur:t.type,opts:Object.entries(TYPES).map(([p,v])=>({v:p,l:v.label,sub:v.hint}))};
+  c.pick=v=>k==='status'?requestStatus(tid,v):editField(tid,k,v||null);
+  openPicker(btn,c)}
+function pickCreate(k,btn){const f=$('#cf');
+  if(k==='team')openPicker(btn,{title:'Tim',search:true,cur:f.team.value,opts:TEAMS.map(teamOpt),pick:v=>{f.team.value=v;f.assignee.value='';fillAssignee()}});
+  else openPicker(btn,{title:'Penanggung jawab',search:true,cur:f.assignee.value,opts:[{v:'',l:'Tentukan nanti',ic:av(null,26)},...members(f.team.value).map(personOpt)],pick:v=>{f.assignee.value=v;fillAssignee()}})}
 
 /* ---------- status changes ---------- */
 function requestStatus(id,to){
@@ -1048,8 +1135,8 @@ function openCreate(){
         <div class="seg">${Object.entries(TYPES).map(([k,v],i)=>`<label><input type="radio" name="type" value="${k}" ${i===0?'checked':''}><span>${v.label}</span></label>`).join('')}</div>
         <p class="hint" id="thint"></p></div>
       <div class="two">
-        <label class="fl">Tim <select class="input" name="team" onchange="fillAssignee()">${TEAMS.map(x=>`<option value="${x.id}" ${x.id===team?'selected':''}>${x.name}</option>`).join('')}</select></label>
-        <label class="fl">Penanggung jawab <select class="input" name="assignee"></select></label>
+        <div class="fl">Tim<input type="hidden" name="team" value="${team}"><span id="cf-team">${pickBtn('Tim','',"pickCreate('team',this)")}</span></div>
+        <div class="fl">Penanggung jawab<input type="hidden" name="assignee" value=""><span id="cf-as">${pickBtn('Penanggung jawab','',"pickCreate('assignee',this)")}</span></div>
       </div>
       <div class="fl">Prioritas
         <div class="seg">${Object.entries(PRIO).map(([k,v])=>`<label title="${v.ex}"><input type="radio" name="prio" value="${k}" ${k==='P3'?'checked':''}><span><span class="pd"><i style="background:${PRC[k]}"></i>${v.label}</span><small>SLA ${slaTarget(k)}</small></span></label>`).join('')}</div></div>
@@ -1059,7 +1146,7 @@ function openCreate(){
     <footer class="m-f"><button type="button" class="btn" onclick="closeModal()">Batal</button><button class="btn primary">${icon('plus',15)} Buat Tiket</button></footer></form>`);
   $('#cf').addEventListener('change',updPrev);fillAssignee();updPrev();$('#cf').title.focus();
 }
-function fillAssignee(){const f=$('#cf');f.assignee.innerHTML=`<option value="">— Tentukan nanti —</option>`+members(f.team.value).map(u=>`<option value="${u.id}">${u.name}${u.role==='Lead Tim'?' (Lead)':''}</option>`).join('')}
+function fillAssignee(){const f=$('#cf');$('#cf-team .pv').innerHTML=teamVal(f.team.value);$('#cf-as .pv').innerHTML=f.assignee.value?personVal(f.assignee.value):`${av(null,22)}<span class="t muted">Tentukan nanti</span>`}
 function updPrev(){const f=$('#cf'),p=f.prio.value;$('#thint').textContent=`${TYPES[f.type.value].hint} · ${STEPS[f.type.value].length} langkah pengerjaan dibuat otomatis.`;
   $('#slaprev').innerHTML=`${icon('clock',18)}<div>Batas SLA otomatis: <b>${fmtL(Date.now()+hrs(p)*H)} WIB</b><div class="small muted">Prioritas ${PRIO[p].label} · target penyelesaian ${slaTarget(p)}</div></div>`}
 function submitCreate(e){e.preventDefault();const f=e.target,now=Date.now(),type=f.type.value;
@@ -1158,6 +1245,7 @@ document.addEventListener('click',()=>{$('#pop-root').innerHTML=''});
 /* ---------- global search & keys ---------- */
 $('#q').addEventListener('input',e=>{F.q=e.target.value;if(VIEW==='dashboard'||VIEW==='admin'){if(F.q)go('tiket')}else render()});
 document.addEventListener('keydown',e=>{
+  if(pkKey(e))return;
   if(e.key==='Escape'){if($('#modal-root').innerHTML)closeModal();else if(openId)closeDrawer();else $('#pop-root').innerHTML=''}
   if(!ME)return;
   if(e.key==='/'&&!/INPUT|TEXTAREA|SELECT/.test(document.activeElement.tagName)){e.preventDefault();$('#q').focus()}

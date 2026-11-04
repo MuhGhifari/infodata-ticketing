@@ -150,7 +150,7 @@ select.input{appearance:none;padding-right:30px;cursor:pointer;background-image:
 .legend i{width:10px;height:10px;border-radius:3px;display:inline-block}
 .wl-br{font-size:11px;font-weight:700;color:var(--bad);margin-left:6px}
 
-.stat-row{display:grid;grid-template-columns:110px minmax(0,1fr) 34px;align-items:center;gap:12px;padding:7px 0}
+.stat-row{display:grid;grid-template-columns:150px minmax(0,1fr) 34px;align-items:center;gap:12px;padding:7px 0}
 .stat-row .track{height:8px;background:var(--line-2);border-radius:99px;overflow:hidden}
 .stat-row .track span{display:block;height:100%;border-radius:99px}
 .stat-row b{text-align:right}
@@ -309,6 +309,52 @@ select.input{appearance:none;padding-right:30px;cursor:pointer;background-image:
 .tpls{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
 .still{animation:none!important}
 
+/* ---------- login ---------- */
+.locked .app,.locked #drawer-root{display:none}
+#login-root:empty{display:none}
+.login{min-height:100vh;display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);background:#fff}
+.lg-side{background:var(--ink);color:#fff;padding:44px 48px;display:flex;flex-direction:column;justify-content:space-between;gap:32px;position:relative;overflow:hidden}
+.lg-side::after{content:"";position:absolute;right:-140px;bottom:-150px;width:440px;height:440px;border-radius:50%;border:38px solid var(--brand);pointer-events:none}
+.lg-logo{background:#fff;border-radius:14px;padding:10px 16px 10px 10px;display:inline-flex;align-items:center;gap:12px;color:var(--ink);align-self:flex-start}
+.lg-logo img{height:46px;display:block}
+.lg-logo b{display:block;font-size:14px}.lg-logo span{font-size:11.5px;color:var(--muted)}
+.lg-side h2{font-size:34px;line-height:1.15;font-weight:800;letter-spacing:-.02em;max-width:480px;margin:0 0 18px;position:relative;z-index:1}
+.lg-side ul{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:12px;color:#E9E2E1;max-width:430px;position:relative;z-index:1}
+.lg-side li{display:flex;gap:10px;align-items:flex-start}
+.lg-side li svg{color:var(--brand);flex:none;margin-top:2px}
+.lg-side .addr{font-size:12px;color:#B9AEAC;max-width:360px;position:relative;z-index:1}
+.lg-main{display:flex;align-items:center;justify-content:center;padding:40px 24px}
+.lg-form{width:min(400px,100%)}
+.lg-form h1{font-size:26px;font-weight:800;letter-spacing:-.015em;margin:0 0 4px}
+.lg-form .fl{margin-top:16px}
+.lg-form .input{height:42px}
+.pwwrap{position:relative}
+.pwwrap .input{padding-right:44px}
+.pwwrap .iconbtn{position:absolute;right:3px;top:3px}
+.lg-row{display:flex;justify-content:space-between;align-items:center;margin-top:14px;font-size:13px}
+.lg-row label{display:flex;gap:8px;align-items:center;cursor:pointer}
+.lg-row input{accent-color:var(--brand);width:16px;height:16px;margin:0}
+.lg-row a{color:var(--brand-700);font-weight:600;cursor:pointer;text-decoration:none}
+.lg-err{color:var(--bad);font-size:13px;font-weight:600;min-height:20px;margin-top:12px}
+.lg-form .btn.primary{width:100%;height:44px;font-size:14px}
+.demo{margin-top:28px;border:1px dashed #DCD3D1;border-radius:12px;padding:10px}
+.demo h4{margin:2px 6px 6px;font-size:11px;text-transform:uppercase;letter-spacing:.07em;color:var(--muted)}
+.demo button{display:flex;width:100%;align-items:center;gap:10px;border:0;background:none;padding:8px 6px;border-radius:8px;cursor:pointer;text-align:left}
+.demo button:hover{background:var(--line-2)}
+.demo .dn{font-weight:600;font-size:13px}.demo .dr{font-size:11.5px;color:var(--muted)}
+.demo code{margin-left:auto;font-size:11.5px;color:var(--ink-2);font-family:ui-monospace,SFMono-Regular,Menlo,monospace;background:var(--line-2);padding:2px 6px;border-radius:5px;white-space:nowrap}
+@media (max-width:900px){.login{grid-template-columns:minmax(0,1fr)}.lg-side{padding:24px 20px}.lg-side h2{font-size:22px;margin:0}.lg-side ul,.lg-side .addr{display:none}.lg-side::after{width:200px;height:200px;right:-70px;bottom:-110px;border-width:20px}.lg-main{padding:28px 16px 40px;align-items:flex-start}}
+.me .iconbtn{margin-left:auto}
+.me>div{min-width:0}
+.nav a .tsq{width:9px;height:9px;border-radius:3px;flex:none;margin:0 4px}
+.nav a small{font-size:10.5px;font-weight:700;color:var(--brand-700);background:var(--brand-50);border-radius:4px;padding:0 5px;margin-left:-4px}
+.tpick{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px}
+.tpick .chip b{font-weight:700;color:var(--muted);margin-left:2px}
+.tpick .chip.on b{color:var(--brand-700)}
+.board-note{display:flex;gap:8px;align-items:center;font-size:12.5px;color:var(--ink-2);background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:9px 12px;margin-bottom:14px}
+.board-note a{color:var(--brand-700);font-weight:600;cursor:pointer}
+.tcard .stl{margin-top:8px}
+
 /* ---------- status admin ---------- */
 .flow{display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-bottom:14px}
 .flow svg{color:var(--muted)}
@@ -430,6 +476,7 @@ select.input{appearance:none;padding-right:30px;cursor:pointer;background-image:
     <main id="view"></main>
   </div>
 </div>
+<div id="login-root"></div>
 <div id="drawer-root"></div>
 <div id="modal-root"></div>
 <div id="toast-root"></div>
@@ -469,14 +516,17 @@ const IC={
  flame:'<path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.07-2.14-.22-4.05 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.15.43-2.29 1-3a2.5 2.5 0 0 0 2.5 2.5z"/>',
  arrow:'<path d="M5 12h14M13 6l6 6-6 6"/>',
  sort:'<path d="m7 15 5 5 5-5M7 9l5-5 5 5"/>',
+ logout:'<path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/>',
+ eye:'<path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/>',
+ lock:'<rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/>',
  up:'<path d="m18 15-6-6-6 6"/>', down:'<path d="m6 9 6 6 6-6"/>',
 };
 function icon(n,s=16,sw=2){return `<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="${sw}" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${IC[n]||''}</svg>`}
 
 /* ---------- master data ---------- */
 const TEAMS=[
- {id:'NET',name:'Network'},{id:'INF',name:'Server & Infrastruktur'},{id:'DB',name:'Database'},
- {id:'APP',name:'Aplikasi'},{id:'HD',name:'Helpdesk'},{id:'SEC',name:'Security'}];
+ {id:'NET',name:'Network',color:'#2563EB'},{id:'INF',name:'Server & Infrastruktur',color:'#0E7490'},{id:'DB',name:'Database',color:'#7C3AED'},
+ {id:'APP',name:'Aplikasi',color:'#DB2777'},{id:'HD',name:'Helpdesk',color:'#EA580C'},{id:'SEC',name:'Security',color:'#15803D'}];
 const USERS=[
  {id:'u1',name:'Rizky Maulana',team:'NET',role:'Lead Tim'},{id:'u2',name:'Fajar Nugroho',team:'NET',role:'Engineer'},{id:'u3',name:'Andi Pratama',team:'NET',role:'Engineer'},
  {id:'u4',name:'Hendra Wijaya',team:'INF',role:'Lead Tim'},{id:'u5',name:'Siti Rahmawati',team:'INF',role:'Engineer'},{id:'u6',name:'Yoga Saputra',team:'INF',role:'Engineer'},
@@ -484,8 +534,11 @@ const USERS=[
  {id:'u9',name:'Maya Sari',team:'APP',role:'Lead Tim'},{id:'u10',name:'Bayu Firmansyah',team:'APP',role:'Engineer'},{id:'u11',name:'Putri Anjani',team:'APP',role:'Engineer'},
  {id:'u12',name:'Rina Kusuma',team:'HD',role:'Lead Tim'},{id:'u13',name:'Dimas Ardiansyah',team:'HD',role:'Engineer'},
  {id:'u14',name:'Lukman Hakim',team:'SEC',role:'Lead Tim'},{id:'u15',name:'Nadia Putri',team:'SEC',role:'Engineer'},
- {id:'u0',name:'Admin Sistem',team:null,role:'Admin'}];
-const ME='u1';
+ {id:'u0',name:'Muamar Azzriel Fattah',team:null,role:'Admin'}];
+/* Mockup login: credentials live in the page only. The real app checks them on the server (see PLAN.md). */
+USERS.forEach(u=>{u.username=u.id==='u0'?'admin':u.name.split(' ')[0].toLowerCase();u.pw=u.id==='u0'?'admin123':'demo123';u.email=u.name.toLowerCase().replace(/ /g,'.')+'@contoh.co.id'});
+let ME=null;
+const isAdmin=()=>U(ME)?.role==='Admin', isLead=()=>['Admin','Lead Tim'].includes(U(ME)?.role);
 const TYPES={INC:{label:'Insiden',hint:'Gangguan yang membuat layanan terhenti atau menurun.'},SR:{label:'Permintaan Layanan',hint:'Permintaan rutin: akun, akses, instalasi, perangkat.'},CHG:{label:'Perubahan',hint:'Perubahan terencana pada sistem atau infrastruktur.'},PRB:{label:'Masalah Berulang',hint:'Mencari akar masalah dari insiden yang terjadi berulang.'}};
 const PRIO={P1:{label:'Kritis',val:4,unit:'jam',ex:'Layanan produksi mati'},P2:{label:'Tinggi',val:8,unit:'jam',ex:'Fungsi utama terganggu'},P3:{label:'Sedang',val:3,unit:'hari',ex:'Permintaan / gangguan biasa'},P4:{label:'Rendah',val:5,unit:'hari',ex:'Minor atau kosmetik'}};
 /* Statuses are admin-defined. Behaviour comes from the category, never from the name. */
@@ -494,15 +547,30 @@ const CATS={
  active:{label:'Sedang dikerjakan',desc:'SLA berjalan.'},
  paused:{label:'Menunggu',desc:'SLA dijeda. Wajib isi alasan.'},
  done:{label:'Selesai',desc:'SLA berhenti. Wajib isi catatan penyelesaian. Dihitung sebagai tiket tertutup.'}};
-const STATUSES=[
- {id:'open',label:'Terbuka',color:'#3B82F6',cat:'open'},
- {id:'prog',label:'Dikerjakan',color:'#F59E0B',cat:'active'},
- {id:'wait',label:'Menunggu',color:'#64748B',cat:'paused'},
- {id:'done',label:'Selesai',color:'#16A34A',cat:'done'}];
+const CAT_ORDER=['open','active','paused','done'];
+const CAT_COLOR={open:'#3B82F6',active:'#F59E0B',paused:'#64748B',done:'#16A34A'};
+/* Each team has its own workflow (= its own board columns). */
+const FLOWS={
+ NET:[['Terbuka','open'],['Dikerjakan','active'],['Menunggu Vendor','paused','#8B5CF6'],['Verifikasi User','paused','#0EA5E9'],['Selesai','done']],
+ INF:[['Terbuka','open'],['Dikerjakan','active'],['Menunggu','paused'],['Selesai','done']],
+ DB:[['Terbuka','open'],['Analisis','active','#8B5CF6'],['Dikerjakan','active'],['Menunggu','paused'],['Selesai','done']],
+ APP:[['Backlog','open','#94A3B8'],['Dikerjakan','active'],['Testing','active','#06B6D4'],['Menunggu','paused'],['Rilis / Selesai','done']],
+ HD:[['Terbuka','open'],['Dikerjakan','active'],['Menunggu User','paused'],['Selesai','done']],
+ SEC:[['Terbuka','open'],['Investigasi','active','#7C3AED'],['Mitigasi','active','#F97316'],['Menunggu','paused'],['Selesai','done']]};
+const TST={};
+TEAMS.forEach(tm=>{TST[tm.id]=FLOWS[tm.id].map(([label,c,color],i)=>({id:`${tm.id}-${i}`,label,cat:c,color:color||CAT_COLOR[c]}))});
 const ARCHIVED_ST=[];
-const ST=id=>STATUSES.find(x=>x.id===id)||ARCHIVED_ST.find(x=>x.id===id)||{id,label:id,color:'#999',cat:'active'};
+const flow=team=>TST[team]||[];
+const ALL_ST=()=>Object.values(TST).flat();
+const ST=id=>ALL_ST().find(x=>x.id===id)||ARCHIVED_ST.find(x=>x.id===id)||{id,label:id,color:'#999',cat:'active'};
 const CAT=id=>ST(id).cat, cat=t=>CAT(t.status), isDone=t=>cat(t)==='done';
-const DEFAULT_ST=()=>(STATUSES.find(x=>x.cat==='open')||STATUSES[0]).id;
+const firstCat=(team,c)=>(flow(team).find(x=>x.cat===c)||{}).id;
+const DEFAULT_ST=team=>(flow(team).find(x=>x.cat==='open')||flow(team)[0]).id;
+function fixSla(t,was,now=Date.now()){const c=cat(t);   // keep SLA data consistent when a ticket's category changes
+  if(was==='paused'&&c!=='paused'&&t.pausedAt){t.pausedMs+=now-t.pausedAt;t.pausedAt=null}
+  if(c==='paused'&&!t.pausedAt)t.pausedAt=now;
+  if(c==='done'&&!t.resolved)t.resolved=now;
+  if(c!=='done'&&was==='done')t.resolved=null}
 const PRC={P1:'var(--p1)',P2:'var(--p2)',P3:'var(--p3)',P4:'var(--p4)'};
 const AVC=['#7C3AED','#0E7490','#B45309','#15803D','#BE185D','#1D4ED8','#4D7C0F','#9333EA','#0F766E','#C2410C','#475569','#A21CAF','#0369A1','#B91C1C','#4338CA','#334155'];
 const hrs=p=>PRIO[p].unit==='hari'?PRIO[p].val*24:PRIO[p].val;          // mockup: calendar hours (real app: business hours)
@@ -550,27 +618,29 @@ const RESOLUTIONS=['Konfigurasi diperbaiki dan sudah diverifikasi bersama user.'
 const COUNTER={INC:1180,SR:2410,CHG:312,PRB:41};
 const NOW0=Date.now();
 let TK=SEED.map(([type,title,team],i)=>{
-  const status=wpick({open:22,prog:38,wait:14,done:26});
+  const sc=wpick({open:22,active:38,paused:14,done:26}), status=pick(flow(team).filter(x=>x.cat===sc)).id;
+  const S0=firstCat(team,'open'),S1=firstCat(team,'active');
   const prio=type==='INC'?wpick({P1:30,P2:40,P3:25,P4:5}):type==='CHG'?wpick({P2:30,P3:50,P4:20}):wpick({P2:15,P3:55,P4:30});
   const tot=hrs(prio)*H; const team_m=members(team);
   const t={id:'t'+i,type,title,team,prio,status,assignee:null,reporter:pick(USERS.filter(u=>u.team)).id,events:[],pausedMs:0,pausedAt:null,resolved:null,resolution:null};
-  if(status==='done'){t.created=NOW0-(8*H+R()*6*D);t.resolved=Math.min(NOW0-H,t.created+tot*(R()<.18?1.2+R()*.5:.2+R()*.7))}
+  if(sc==='done'){t.created=NOW0-(8*H+R()*6*D);t.resolved=Math.min(NOW0-H,t.created+tot*(R()<.18?1.2+R()*.5:.2+R()*.7))}
   else t.created=NOW0-tot*(R()<.22?1.05+R()*.5:(R()<.25?.76+R()*.2:.05+R()*.65));
-  if(status!=='open'||R()<.45)t.assignee=pick(team_m).id;
+  if(sc!=='open'||R()<.45)t.assignee=pick(team_m).id;
   t.desc=DESC[type].replace('{t}',title);
   const ev=(at,o)=>t.events.push({at:Math.round(at),...o});
   ev(t.created,{by:t.reporter,kind:'created'});
   let c=t.created+(5+R()*20)*60e3;
   if(t.assignee){ev(c,{by:U(t.assignee).role==='Lead Tim'?t.assignee:members(team)[0].id,kind:'assigned',to:t.assignee})}
-  const tpl=STEPS[type],nS=tpl.length,doneN=status==='done'?nS:status==='open'?0:1+Math.floor(R()*(nS-1));
+  const tpl=STEPS[type],nS=tpl.length,doneN=sc==='done'?nS:sc==='open'?0:1+Math.floor(R()*(nS-1));
   t.steps=tpl.map((text,j)=>({id:'s'+i+'_'+j,text,done:j<doneN,by:null,at:null}));
-  if(status!=='open'){c+=(5+R()*30)*60e3;ev(c,{by:t.assignee,kind:'status',from:'open',to:'prog'});
-    const end=status==='done'?t.resolved:NOW0;
+  if(sc!=='open'){c+=(5+R()*30)*60e3;ev(c,{by:t.assignee,kind:'status',from:S0,to:S1});
+    if(sc==='active'&&status!==S1)ev(c+(NOW0-c)*.5,{by:t.assignee,kind:'status',from:S1,to:status});
+    const end=sc==='done'?t.resolved:NOW0;
     t.steps.slice(0,doneN).forEach((st,j)=>{st.by=t.assignee;st.at=Math.round(c+(end-c)*.85*(j+1)/(doneN+.5));ev(st.at,{by:t.assignee,kind:'step',done:true,step:st.text})});
     c=c+(end-c)*.35;ev(c,{by:t.assignee,kind:'note',text:pick(NOTES)});
     if(R()<.5){c=c+(end-c)*.4;ev(c,{by:t.assignee,kind:'note',text:pick(NOTES)})}
-    if(status==='wait'){c=c+(end-c)*.5;t.pausedAt=Math.round(c);ev(c,{by:t.assignee,kind:'status',from:'prog',to:'wait',text:pick(WAIT_REASONS)})}
-    if(status==='done'){t.resolution=pick(RESOLUTIONS);ev(t.resolved,{by:t.assignee,kind:'status',from:'prog',to:'done',text:t.resolution})}
+    if(sc==='paused'){c=c+(end-c)*.5;t.pausedAt=Math.round(c);ev(c,{by:t.assignee,kind:'status',from:S1,to:status,text:pick(WAIT_REASONS)})}
+    if(sc==='done'){t.resolution=pick(RESOLUTIONS);ev(t.resolved,{by:t.assignee,kind:'status',from:S1,to:status,text:t.resolution})}
   }
   t.events.sort((a,b)=>a.at-b.at);t.updated=t.events[t.events.length-1].at;
   return t;
@@ -617,22 +687,22 @@ function filtered(list){const q=F.q.trim().toLowerCase();return list.filter(t=>{
   if(F.team&&t.team!==F.team)return false;
   if(F.type&&t.type!==F.type)return false;
   if(F.prio&&t.prio!==F.prio)return false;
-  if(F.status==='aktif'?isDone(t):F.status==='selesai'?!isDone(t):F.status&&t.status!==F.status)return false;
+  const fs=F.status;if(fs&&(fs==='aktif'?isDone(t):fs==='selesai'?!isDone(t):fs.startsWith('cat:')?cat(t)!==fs.slice(4):t.status!==fs))return false;
   if(F.assignee&&(F.assignee==='none'?t.assignee:t.assignee!==F.assignee))return false;
   if(F.sla){if(isDone(t))return false;const s=sla(t);if(F.sla==='breached'&&!s.breached)return false;if(F.sla==='risk'&&!s.risk)return false;if(F.sla==='ok'&&(s.breached||s.risk))return false}
   if(q&&!(t.num.toLowerCase().includes(q)||t.title.toLowerCase().includes(q)||t.desc.toLowerCase().includes(q)||t.events.some(e=>(e.text||'').toLowerCase().includes(q))))return false;
   return true})}
-function setF(k,v){F[k]=v;if(k==='team'&&F.assignee&&F.assignee!=='none'&&v&&U(F.assignee).team!==v)F.assignee='';render()}
+function setF(k,v){F[k]=v;if(k==='team'){if(F.assignee&&F.assignee!=='none'&&v&&U(F.assignee).team!==v)F.assignee='';if(F.status&&!['aktif','selesai'].includes(F.status)&&!F.status.startsWith('cat:'))F.status=''}render()}
 function resetF(){Object.assign(F,{q:'',team:'',type:'',prio:'',status:'',assignee:'',sla:'',mine:false});$('#q').value='';render()}
 const activeF=()=>Object.entries(F).some(([k,v])=>v);
 function sel(key,label,opts){return `<select class="select ${F[key]?'on':''}" aria-label="${label}" onchange="setF('${key}',this.value)"><option value="">${label}</option>${opts.map(([v,l])=>`<option value="${v}" ${F[key]===v?'selected':''}>${esc(l)}</option>`).join('')}</select>`}
-function filterBar(o={}){return `<div class="filters">
+function filterBar(o={}){const tm=o.board?BOARD_TEAM:F.team;return `<div class="filters">
   <button class="chip ${F.mine?'on':''}" onclick="setF('mine',!F.mine)">${icon('user',14)} Tiket saya</button>
-  ${sel('team','Semua tim',TEAMS.map(t=>[t.id,t.name]))}
+  ${o.board?'':sel('team','Semua tim',TEAMS.map(t=>[t.id,t.name]))}
   ${sel('type','Semua jenis',Object.entries(TYPES).map(([k,v])=>[k,v.label]))}
   ${sel('prio','Semua prioritas',Object.entries(PRIO).map(([k,v])=>[k,v.label]))}
-  ${o.status?sel('status','Semua status',[['aktif','Semua yang aktif'],['selesai','Semua yang selesai'],...STATUSES.map(x=>[x.id,x.label])]):''}
-  ${sel('assignee','Semua penanggung jawab',[['none','Belum ditugaskan'],...USERS.filter(u=>u.team&&(!F.team||u.team===F.team)).map(u=>[u.id,u.name])])}
+  ${o.status?sel('status','Semua status',[['aktif','Semua yang aktif'],['selesai','Semua yang selesai'],...CAT_ORDER.map(k=>['cat:'+k,'Kategori: '+CATS[k].label]),...(F.team?flow(F.team).map(x=>[x.id,'Status: '+x.label]):[])]):''}
+  ${sel('assignee','Semua penanggung jawab',[['none','Belum ditugaskan'],...USERS.filter(u=>u.team&&(!tm||u.team===tm)).map(u=>[u.id,u.name])])}
   ${sel('sla','Semua SLA',[['breached','Lewat SLA'],['risk','Hampir lewat SLA'],['ok','Aman']])}
   ${F.q?`<span class="chip on">${icon('list',13)} “${esc(F.q)}” <button onclick="clearQ()" aria-label="Hapus pencarian">${icon('x',13)}</button></span>`:''}
   ${activeF()?`<button class="btn ghost sm" onclick="resetF()">Reset filter</button>`:''}
@@ -644,23 +714,65 @@ let VIEW='dashboard';
 const VIEWS={dashboard:renderDashboard,papan:renderBoard,tiket:renderList,admin:renderAdmin};
 function go(v){if(location.hash!=='#'+v)location.hash=v;else render()}
 function render(){
-  VIEW=(location.hash.slice(1)||'dashboard');if(!VIEWS[VIEW])VIEW='dashboard';
+  if(!ME){document.body.classList.add('locked');renderLogin();return}
+  document.body.classList.remove('locked');$('#login-root').innerHTML='';
+  VIEW=(location.hash.slice(1)||'dashboard');if(!VIEWS[VIEW]||(VIEW==='admin'&&!isAdmin()))VIEW='dashboard';
   renderNav();VIEWS[VIEW]();renderDrawer();
 }
+let BOARD_TEAM='';
+function openBoard(team){BOARD_TEAM=team||'';F.team='';F.mine=false;go('papan')}
+
+/* ---------- login ---------- */
+const DEMO=['u0','u1','u2'];
+function store(id,remember){try{localStorage.removeItem('tiket-me');sessionStorage.removeItem('tiket-me');if(id)(remember?localStorage:sessionStorage).setItem('tiket-me',id)}catch(e){}}
+function restore(){try{const id=localStorage.getItem('tiket-me')||sessionStorage.getItem('tiket-me');if(U(id))ME=id}catch(e){}}
+function renderLogin(){
+  if($('#login-root').innerHTML)return;
+  $('#login-root').innerHTML=`<div class="login">
+    <section class="lg-side">
+      <div class="lg-logo"><img src="${$('#logo').src}" alt="Info Data"><div><b>Tiket Engineer</b><span>PT. Info Solusindo Data Utama</span></div></div>
+      <div><h2>Semua kasus engineer, tercatat dan terpantau di satu tempat.</h2>
+        <ul><li>${icon('check',16,2.6)}Kasus tidak lagi tersebar di chat atau catatan pribadi.</li><li>${icon('check',16,2.6)}Lead tim memantau progres dan beban kerja secara langsung.</li><li>${icon('check',16,2.6)}Prioritas dan batas SLA seragam di semua tim.</li></ul></div>
+      <div class="addr">Menara Hijau, Jl. MT Haryono Kav. 33, Cikoko, Pancoran, Jakarta Selatan 12770</div>
+    </section>
+    <main class="lg-main"><form class="lg-form" onsubmit="doLogin(event)" novalidate>
+      <h1>Masuk</h1><p class="muted" style="margin:0">Gunakan akun yang diberikan Admin.</p>
+      <label class="fl">Username atau email<input class="input" name="user" autocomplete="username" autocapitalize="none" spellcheck="false" placeholder="contoh: admin"></label>
+      <label class="fl">Password<span class="pwwrap"><input class="input" name="pw" type="password" autocomplete="current-password" placeholder="Masukkan password"><button type="button" class="iconbtn" onclick="const i=this.previousElementSibling;i.type=i.type==='password'?'text':'password'" aria-label="Tampilkan password">${icon('eye',17)}</button></span></label>
+      <div class="lg-row"><label><input type="checkbox" name="remember" checked> Ingat saya</label><a onclick="toast('Hubungi Admin untuk reset password.')">Lupa password?</a></div>
+      <div class="lg-err" id="lerr" role="alert"></div>
+      <button class="btn primary">${icon('lock',15)} Masuk</button>
+      <div class="demo"><h4>Akun demo (mockup)</h4>${DEMO.map(id=>{const u=U(id);return `<button type="button" onclick="fillDemo('${id}')">${av(id,30)}<div><div class="dn">${esc(u.name)}</div><div class="dr">${u.role}${u.team?' · '+T(u.team).name:''}</div></div><code>${u.username} / ${u.pw}</code></button>`}).join('')}</div>
+    </form></main></div>`;
+  setTimeout(()=>$('.lg-form [name=user]')?.focus(),0);
+}
+function fillDemo(id){const f=$('.lg-form'),u=U(id);f.user.value=u.username;f.pw.value=u.pw;$('#lerr').textContent='';f.querySelector('.btn.primary').focus()}
+function doLogin(e){e.preventDefault();const f=e.target,name=f.user.value.trim().toLowerCase();
+  if(!name||!f.pw.value){$('#lerr').textContent='Isi username dan password.';(name?f.pw:f.user).focus();return}
+  const u=USERS.find(x=>x.username===name||x.email===name);
+  if(!u||u.pw!==f.pw.value){$('#lerr').textContent='Username atau password salah.';f.pw.select();return}
+  ME=u.id;store(ME,f.remember.checked);$('#login-root').innerHTML='';
+  Object.assign(F,{q:'',team:'',type:'',prio:'',status:'',assignee:'',sla:'',mine:false});$('#q').value='';
+  BOARD_TEAM=u.team||'';ADM_TEAM=u.team||TEAMS[0].id;
+  if(location.hash==='#admin'&&!isAdmin())location.hash='dashboard';
+  render();toast(`Selamat datang, ${u.name.split(' ')[0]}`)}
+function logout(){ME=null;store(null);closeModal();closeDrawer();$('#pop-root').innerHTML='';SDRAFT=null;SMOVES={};SERR='';render()}
 window.addEventListener('hashchange',()=>{toggleSide(false);render();window.scrollTo(0,0)});
 
 function renderNav(){
-  const act=TK.filter(t=>!isDone(t)), mine=act.filter(t=>t.assignee===ME), br=act.filter(t=>sla(t).breached).length;
-  const item=(v,ic,label,count,extra='')=>`<a class="${VIEW===v&&!(v==='papan'&&F.mine!==(extra==='mine'))?'active':''}" onclick="${extra==='mine'?`F.mine=true;go('papan')`:`${v==='papan'?'F.mine=false;':''}go('${v}')`}">${icon(ic,17)}${label}${count!=null?`<span class="count ${extra==='alert'&&count?'alert':''}">${count}</span>`:''}</a>`;
+  const me=U(ME),act=TK.filter(t=>!isDone(t)), mine=act.filter(t=>t.assignee===ME), br=act.filter(t=>sla(t).breached).length;
+  const a=(on,click,ic,label,count,alert)=>`<a class="${on?'active':''}" onclick="${click}">${ic}${label}${count!=null?`<span class="count ${alert&&count?'alert':''}">${count}</span>`:''}</a>`;
+  const onBoard=VIEW==='papan'&&!F.mine;
+  const teams=[...TEAMS].sort((x,y)=>(y.id===me.team)-(x.id===me.team));
   $('#nav').innerHTML=`<div class="sec">Menu</div>
-   ${item('dashboard','dash','Dashboard',br,'alert')}
-   ${item('papan','board','Papan Tiket',act.length)}
-   ${item('papan','me','Tiket Saya',mine.length,'mine')}
-   ${item('tiket','list','Daftar Tiket',null)}
-   <div class="sec">Pengaturan</div>
-   ${item('admin','settings','Admin',null)}`;
-  const me=U(ME);
-  $('#me').innerHTML=`${av(ME,34)}<div><div class="n">${me.name}</div><div class="r">${me.role} · ${T(me.team).name}</div></div>`;
+   ${a(VIEW==='dashboard',"go('dashboard')",icon('dash',17),'Dashboard',br,true)}
+   ${a(VIEW==='papan'&&F.mine,`BOARD_TEAM='${me.team||''}';F.team='';F.mine=true;go('papan')`,icon('me',17),'Tiket Saya',mine.length)}
+   ${a(VIEW==='tiket',"go('tiket')",icon('list',17),'Daftar Tiket',null)}
+   <div class="sec">Papan tim</div>
+   ${a(onBoard&&!BOARD_TEAM,"openBoard('')",icon('board',17),'Semua tim',act.length)}
+   ${teams.map(tm=>a(onBoard&&BOARD_TEAM===tm.id,`openBoard('${tm.id}')`,`<span class="tsq" style="background:${tm.color}"></span>`,`${esc(tm.name)}${tm.id===me.team?' <small>Tim saya</small>':''}`,act.filter(t=>t.team===tm.id).length)).join('')}
+   ${isAdmin()?`<div class="sec">Pengaturan</div>${a(VIEW==='admin',"go('admin')",icon('settings',17),'Admin',null)}`:''}`;
+  $('#me').innerHTML=`${av(ME,34)}<div><div class="n">${esc(me.name)}</div><div class="r">${me.role}${me.team?' · '+T(me.team).name:' · Semua tim'}</div></div><button class="iconbtn" onclick="logout()" title="Keluar" aria-label="Keluar">${icon('logout',17)}</button>`;
 }
 function toggleSide(on){$('#side').classList.toggle('open',on);$('#scrim').classList.toggle('on',on)}
 
@@ -679,7 +791,7 @@ function renderDashboard(){
   const tf=F.team?`F.team='${F.team}';`:'';
   $('#view').innerHTML=`
   <div class="ph"><div><h1>Dashboard</h1><p>Ringkasan tiket ${F.team?'tim '+T(F.team).name:'semua tim'} · diperbarui ${fT.format(now)} WIB</p></div>
-    <div class="acts">${sel('team','Semua tim',TEAMS.map(t=>[t.id,t.name]))}<button class="btn" onclick="go('papan')">${icon('board',15)} Buka papan</button></div></div>
+    <div class="acts">${sel('team','Semua tim',TEAMS.map(t=>[t.id,t.name]))}<button class="btn" onclick="openBoard(F.team)">${icon('board',15)} Buka papan</button></div></div>
   <div class="kpis">
     ${kpi('', 'inbox','Tiket aktif',act.length,`${pc('P1')} Kritis · ${pc('P2')} Tinggi · ${pc('P3')+pc('P4')} lainnya`,`resetF();${tf}F.status='aktif';go('tiket')`)}
     ${kpi('bad','flame','Lewat SLA',br.length,`${act.length?Math.round(br.length/act.length*100):0}% dari tiket aktif`,`resetF();${tf}F.sla='breached';go('tiket')`)}
@@ -690,43 +802,47 @@ function renderDashboard(){
     <div class="card"><div class="card-h"><div><h3>Beban kerja per tim</h3><div class="sub">Tiket aktif menurut prioritas</div></div>
       <div class="legend">${['P1','P2','P3','P4'].map(p=>`<span><i style="background:${PRC[p]}"></i>${PRIO[p].label}</span>`).join('')}</div></div>
       <div class="card-b" style="padding-top:8px;padding-bottom:8px">${teams.map(x=>`
-        <div class="wl-row" onclick="resetF();F.team='${x.tm.id}';go('papan')" title="Buka papan tim ${esc(x.tm.name)}">
+        <div class="wl-row" onclick="resetF();openBoard('${x.tm.id}')" title="Buka papan tim ${esc(x.tm.name)}">
           <div class="nm">${esc(x.tm.name)}<small>${members(x.tm.id).length} engineer${x.br?`<span class="wl-br">· ${x.br} lewat SLA</span>`:''}</small></div>
           <div class="bar" style="width:${Math.max(4,x.a.length/max*100)}%">${x.by.map((n,i)=>n?`<span style="flex:${n};background:${PRC['P'+(i+1)]}" title="${PRIO['P'+(i+1)].label}: ${n}"></span>`:'').join('')||'<span style="flex:1;background:var(--line-2)"></span>'}</div>
           <div class="tot">${x.a.length}</div></div>`).join('')}</div></div>
-    <div class="card"><div class="card-h"><div><h3>Status tiket</h3><div class="sub">Semua tiket ${F.team?'tim ini':''}</div></div></div>
-      <div class="card-b">${STATUSES.map(x=>{const n=all.filter(t=>t.status===x.id).length;return `<div class="stat-row"><span>${statusBadge(x.id)}</span><div class="track"><span style="width:${n/Math.max(1,all.length)*100}%;background:${x.color}"></span></div><b>${n}</b></div>`}).join('')}
+    <div class="card"><div class="card-h"><div><h3>Status tiket</h3><div class="sub">${F.team?'Alur status tim '+esc(T(F.team).name):'Per kategori, semua tim'}</div></div></div>
+      <div class="card-b">${(F.team?flow(F.team).map(x=>({b:statusBadge(x.id),c:x.color,n:all.filter(t=>t.status===x.id).length})):CAT_ORDER.map(k=>({b:`<span class="badge st"><i style="background:${CAT_COLOR[k]}"></i>${CATS[k].label}</span>`,c:CAT_COLOR[k],n:all.filter(t=>cat(t)===k).length}))).map(r=>`<div class="stat-row"><span>${r.b}</span><div class="track"><span style="width:${r.n/Math.max(1,all.length)*100}%;background:${r.c}"></span></div><b>${r.n}</b></div>`).join('')}
         <div class="types">${Object.entries(TYPES).map(([k,v])=>`<div class="ty" onclick="resetF();${tf}F.type='${k}';F.status='aktif';go('tiket')"><span class="badge ty-${k}">${v.label}</span><span>${act.filter(t=>t.type===k).length} aktif</span></div>`).join('')}</div></div></div>
   </div>
   <div class="g2b">
     <div class="card"><div class="card-h"><div><h3>Perlu perhatian</h3><div class="sub">Lewat atau hampir lewat batas SLA, dengan progres pengerjaan</div></div><button class="btn ghost sm" onclick="resetF();${tf}F.sla='breached';go('tiket')">Lihat semua ${icon('arrow',13)}</button></div>
       <table class="mini"><tbody>${attn.map(t=>`<tr onclick="openDetail('${t.id}')"><td class="pc" style="width:1%;white-space:nowrap">${prioBadge(t.prio)}</td><td><div class="num">${t.num} · ${esc(T(t.team).name)}</div><div class="tt">${esc(t.title)}</div></td><td class="pc" style="width:96px">${pgHtml(t,true)}</td><td class="avc" style="width:1%">${av(t.assignee,26)}</td><td style="width:1%;white-space:nowrap;text-align:right">${slaChip(t)}</td></tr>`).join('')||`<tr><td class="muted" style="text-align:center;padding:30px">Semua tiket masih dalam batas SLA 🎉</td></tr>`}</tbody></table></div>
     <div class="card"><div class="card-h"><div><h3>Beban kerja engineer</h3><div class="sub">Tiket aktif per orang</div></div></div>
-      <table class="mini"><tbody>${eng.map(e=>`<tr onclick="resetF();F.assignee='${e.u.id}';go('papan')"><td style="width:46%">${who(e.u.id,28)}<div class="small muted" style="margin:2px 0 0 36px">${esc(T(e.u.team).name)}</div></td><td><div class="eng-bar"><span style="width:${e.n/emax*100}%"></span></div></td><td style="width:1%;white-space:nowrap;text-align:right"><b>${e.n}</b>${e.br?` <span class="badge sla-bad" style="margin-left:6px">${e.br} lewat</span>`:''}</td></tr>`).join('')}</tbody></table></div>
+      <table class="mini"><tbody>${eng.map(e=>`<tr onclick="resetF();F.assignee='${e.u.id}';openBoard('${e.u.team}');F.assignee='${e.u.id}';render()"><td style="width:46%">${who(e.u.id,28)}<div class="small muted" style="margin:2px 0 0 36px">${esc(T(e.u.team).name)}</div></td><td><div class="eng-bar"><span style="width:${e.n/emax*100}%"></span></div></td><td style="width:1%;white-space:nowrap;text-align:right"><b>${e.n}</b>${e.br?` <span class="badge sla-bad" style="margin-left:6px">${e.br} lewat</span>`:''}</td></tr>`).join('')}</tbody></table></div>
   </div>`;
 }
 
 /* ---------- board ---------- */
 function renderBoard(){
-  const list=filtered(TK);
+  if(F.team){BOARD_TEAM=F.team;F.team=''}
+  const bt=BOARD_TEAM,list=filtered(TK).filter(t=>!bt||t.team===bt);
+  const cols=bt?flow(bt).map(x=>({...x,match:t=>t.status===x.id,plus:x.id===DEFAULT_ST(bt)})):CAT_ORDER.map(k=>({id:'cat:'+k,label:CATS[k].label,color:CAT_COLOR[k],cat:k,match:t=>cat(t)===k,plus:k==='open'}));
   $('#view').innerHTML=`
-  <div class="ph"><div><h1>${F.mine?'Tiket Saya':'Papan Tiket'}</h1><p>Seret kartu ke kolom lain untuk mengubah status.</p></div>
-    <div class="acts"><button class="btn" onclick="go('tiket')">${icon('list',15)} Tampilan daftar</button><button class="btn primary" onclick="openCreate()">${icon('plus',15)} Buat Tiket</button></div></div>
-  ${filterBar()}
-  <div class="board">${STATUSES.map(x=>{
-    const items=list.filter(t=>t.status===x.id).sort((a,b)=>x.cat==='done'?b.resolved-a.resolved:sla(a).due-sla(b).due);
+  <div class="ph"><div><h1>${F.mine?'Tiket Saya':bt?'Papan Tim '+esc(T(bt).name):'Papan Semua Tim'}</h1><p>${bt?`${flow(bt).length} status · seret kartu ke kolom lain untuk mengubah status.`:'Seret kartu ke kolom lain untuk mengubah status.'}</p></div>
+    <div class="acts"><select class="select" aria-label="Pilih papan" onchange="BOARD_TEAM=this.value;render()"><option value="">Semua tim</option>${TEAMS.map(x=>`<option value="${x.id}" ${x.id===bt?'selected':''}>Tim ${esc(x.name)}</option>`).join('')}</select><button class="btn" onclick="F.team=BOARD_TEAM;go('tiket')">${icon('list',15)} Tampilan daftar</button><button class="btn primary" onclick="openCreate()">${icon('plus',15)} Buat Tiket</button></div></div>
+  ${filterBar({board:true})}
+  ${bt?'':`<div class="board-note">${icon('board',15)}<span>Tiap tim punya status sendiri, jadi papan ini mengelompokkan kartu per <b>kategori</b>. Buka papan tim untuk melihat semua statusnya.</span></div>`}
+  <div class="board">${cols.map(x=>{
+    const items=list.filter(x.match).sort((a,b)=>x.cat==='done'?b.resolved-a.resolved:sla(a).due-sla(b).due);
     return `<section class="col" data-status="${x.id}" ondragover="dOver(event)" ondragleave="dLeave(event)" ondrop="dDrop(event)">
-      <div class="col-h"><span class="sd" style="background:${x.color}"></span>${esc(x.label)}<span class="cnt">${items.length}</span>${x.id===DEFAULT_ST()?`<button class="iconbtn sm" onclick="openCreate()" title="Buat tiket">${icon('plus',15)}</button>`:''}</div>
+      <div class="col-h"><span class="sd" style="background:${x.color}"></span>${esc(x.label)}<span class="cnt">${items.length}</span>${x.plus?`<button class="iconbtn sm" onclick="openCreate()" title="Buat tiket">${icon('plus',15)}</button>`:''}</div>
       ${x.cat==='paused'?`<div class="col-note">${icon('pause',12)} SLA dijeda di kolom ini</div>`:''}
       ${x.cat==='done'?`<div class="col-note">${icon('clock',12)} 7 hari terakhir</div>`:''}
-      ${items.map(card).join('')||'<div class="col-empty">Tidak ada tiket</div>'}</section>`}).join('')}
+      ${items.map(t=>card(t,!bt)).join('')||'<div class="col-empty">Tidak ada tiket</div>'}</section>`}).join('')}
   </div>`;
 }
-function card(t){const notes=t.events.filter(e=>e.kind==='note').length;return `
+function card(t,showStatus){const notes=t.events.filter(e=>e.kind==='note').length;return `
   <article class="tcard ${t.prio==='P1'?'p1':''}" draggable="true" ondragstart="dStart(event,'${t.id}')" ondragend="dEnd(event)" onclick="openDetail('${t.id}')" tabindex="0" onkeydown="if(event.key==='Enter')openDetail('${t.id}')">
     <div class="r1"><span class="num">${t.num}</span>${prioBadge(t.prio)}</div>
     <div class="tt">${esc(t.title)}</div>
     <div class="meta">${typeBadge(t.type)}<span>· ${esc(T(t.team).name)}</span></div>
+    ${showStatus?`<div class="stl">${statusBadge(t.status)}</div>`:''}
     ${pgHtml(t)}
     <div class="foot">${slaChip(t)}${notes?`<span class="ev">${icon('msg',12)}${notes}</span>`:'<span class="ev"></span>'}${av(t.assignee,24)}</div>
   </article>`}
@@ -735,12 +851,14 @@ function dStart(e,id){dragId=id;e.dataTransfer.effectAllowed='move';e.dataTransf
 function dEnd(e){e.target.classList.remove('dragging');document.querySelectorAll('.col.over').forEach(c=>c.classList.remove('over'))}
 function dOver(e){e.preventDefault();e.currentTarget.classList.add('over')}
 function dLeave(e){if(!e.currentTarget.contains(e.relatedTarget))e.currentTarget.classList.remove('over')}
-function dDrop(e){e.preventDefault();e.currentTarget.classList.remove('over');requestStatus(e.dataTransfer.getData('text/plain')||dragId,e.currentTarget.dataset.status)}
+function dDrop(e){e.preventDefault();e.currentTarget.classList.remove('over');const id=e.dataTransfer.getData('text/plain')||dragId,t=byId(id);let to=e.currentTarget.dataset.status;
+  if(to.startsWith('cat:')){const c=to.slice(4);if(cat(t)===c)return;to=firstCat(t.team,c);if(!to){toast(`Tim ${T(t.team).name} tidak punya status kategori ${CATS[c].label}.`);return}}   // all-teams board: drop on a category = first status of that category in the ticket's own team
+  requestStatus(id,to)}
 
 /* ---------- list ---------- */
 const SORT={k:'due',d:1};
 const PI={P1:1,P2:2,P3:3,P4:4};
-const SK={num:t=>t.num,title:t=>t.title.toLowerCase(),team:t=>T(t.team).name,prio:t=>PI[t.prio],status:t=>STATUSES.findIndex(x=>x.id===t.status),assignee:t=>t.assignee?U(t.assignee).name:'~',prog:t=>prog(t).pct,due:t=>(isDone(t)?1e15:0)+sla(t).due,created:t=>t.created};
+const SK={num:t=>t.num,title:t=>t.title.toLowerCase(),team:t=>T(t.team).name,prio:t=>PI[t.prio],status:t=>CAT_ORDER.indexOf(cat(t))*100+flow(t.team).findIndex(x=>x.id===t.status),assignee:t=>t.assignee?U(t.assignee).name:'~',prog:t=>prog(t).pct,due:t=>(isDone(t)?1e15:0)+sla(t).due,created:t=>t.created};
 function sortBy(k){SORT.d=SORT.k===k?-SORT.d:1;SORT.k=k;render()}
 const listRows=()=>filtered(TK).sort((a,b)=>{const x=SK[SORT.k](a),y=SK[SORT.k](b);return(x>y?1:x<y?-1:0)*SORT.d});
 function renderList(){
@@ -748,7 +866,7 @@ function renderList(){
   const th=(k,l)=>`<th class="${SORT.k===k?'on':''}" onclick="sortBy('${k}')">${l}<span class="ar">${icon(SORT.k===k?(SORT.d>0?'up':'down'):'sort',11,2.4)}</span></th>`;
   $('#view').innerHTML=`
   <div class="ph"><div><h1>Daftar Tiket</h1><p>${rows.length} dari ${TK.length} tiket</p></div>
-    <div class="acts"><button class="btn" onclick="go('papan')">${icon('board',15)} Tampilan papan</button><button class="btn" onclick="exportCsv()">${icon('download',15)} Ekspor CSV</button><button class="btn primary" onclick="openCreate()">${icon('plus',15)} Buat Tiket</button></div></div>
+    <div class="acts"><button class="btn" onclick="openBoard(F.team)">${icon('board',15)} Tampilan papan</button><button class="btn" onclick="exportCsv()">${icon('download',15)} Ekspor CSV</button><button class="btn primary" onclick="openCreate()">${icon('plus',15)} Buat Tiket</button></div></div>
   ${filterBar({status:true})}
   <div class="card tablewrap"><table class="tbl"><thead><tr>${th('num','Nomor')}${th('title','Judul')}${th('team','Tim')}${th('prio','Prioritas')}${th('status','Status')}${th('prog','Progres')}${th('assignee','Penanggung jawab')}${th('due','Batas SLA')}${th('created','Dibuat')}</tr></thead>
   <tbody>${rows.map(t=>{const s=sla(t);return `<tr onclick="openDetail('${t.id}')">
@@ -795,7 +913,7 @@ function renderDrawer(){
     <header class="dr-h"><div><div class="dr-top">${typeBadge(t.type)}<span class="num">${t.num}</span>${prioBadge(t.prio)}</div><h2>${esc(t.title)}</h2></div>
       <button class="iconbtn" onclick="closeDrawer()" aria-label="Tutup">${icon('x',19)}</button></header>
     <div class="dr-b">
-      <div class="stepper" role="group" aria-label="Status">${STATUSES.map(x=>`<button class="${t.status===x.id?'on':''}" onclick="requestStatus('${t.id}','${x.id}')"><i style="background:${x.color}"></i>${esc(x.label)}</button>`).join('')}</div>
+      <div class="stepper" role="group" aria-label="Status">${flow(t.team).map(x=>`<button class="${t.status===x.id?'on':''}" onclick="requestStatus('${t.id}','${x.id}')"><i style="background:${x.color}"></i>${esc(x.label)}</button>`).join('')}</div>
       <div class="slabox sla-${s.k}">
         <div class="row"><b>${icon(SLAI[s.k],15)} SLA ${PRIO[t.prio].label} · ${slaTarget(t.prio)}</b><span class="big">${s.label}</span></div>
         <div class="prog"><span style="width:${Math.min(100,Math.max(2,s.pct*100))}%"></span></div>
@@ -831,6 +949,7 @@ function editField(id,k,v){const t=byId(id),old=t[k];v=v||null;if(old===v)return
   if(k==='assignee'&&v)t.events.push({at:Date.now(),by:ME,kind:'assigned',to:v});
   else t.events.push({at:Date.now(),by:ME,kind:'field',field:k,from:old,to:v});
   if(k==='team'&&t.assignee&&U(t.assignee).team!==v){t.events.push({at:Date.now(),by:ME,kind:'field',field:'assignee',from:t.assignee,to:null});t.assignee=null}
+  if(k==='team'){const was=CAT(t.status),ns=firstCat(v,was)||DEFAULT_ST(v);if(ns!==t.status){const from=t.status;t.status=ns;fixSla(t,was);t.events.push({at:Date.now(),by:ME,kind:'status',from,to:ns,text:`Mengikuti alur status tim ${T(v).name}.`})}}
   touch(t);render();toast(k==='prio'?`Prioritas diubah, batas SLA dihitung ulang`:'Perubahan disimpan')}
 function stepById(t,sid){return t.steps.find(x=>x.id===sid)}
 function toggleStep(tid,sid){const t=byId(tid),x=stepById(t,sid),now=Date.now();x.done=!x.done;x.by=x.done?ME:null;x.at=x.done?now:null;t.events.push({at:now,by:ME,kind:'step',done:x.done,step:x.text});touch(t);render();const p=prog(t);if(x.done&&p.d===p.n&&!isDone(t))toast('Semua langkah selesai. Tiket siap ditutup.')}
@@ -845,7 +964,8 @@ function requestStatus(id,to){
   let n=null;
   if(CAT(to)==='paused')n={title:`Pindahkan ke ${esc(ST(to).label)}`,label:'Alasan menunggu',hint:`SLA dijeda selama tiket berstatus ${esc(ST(to).label)}.`,quick:WAIT_REASONS};
   else if(CAT(to)==='done')n={title:`Selesaikan tiket (${esc(ST(to).label)})`,label:'Catatan penyelesaian',hint:'Jelaskan penyebab dan apa yang dilakukan, supaya bisa dipakai lagi untuk kasus serupa.',quick:[]};
-  else if(isDone(t))n={title:'Buka kembali tiket',label:'Alasan dibuka kembali',hint:'Hanya Lead Tim dan Admin yang bisa membuka kembali tiket.',quick:['Masalah muncul lagi','User belum konfirmasi selesai']};
+  else if(isDone(t)){if(!isLead()){toast('Hanya Lead Tim dan Admin yang bisa membuka kembali tiket.');return}}
+  if(!n&&isDone(t))n={title:'Buka kembali tiket',label:'Alasan dibuka kembali',hint:'Hanya Lead Tim dan Admin yang bisa membuka kembali tiket.',quick:['Masalah muncul lagi','User belum konfirmasi selesai']};
   if(!n){setStatus(t,to);render();toast(`${t.num} dipindahkan ke ${ST(to).label}`);return}
   const left=CAT(to)==='done'?t.steps.filter(x=>!x.done).length:0;
   modal(`<form class="mform" onsubmit="event.preventDefault();confirmStatus('${t.id}','${to}',this.text.value,this.all&&this.all.checked)">
@@ -872,7 +992,7 @@ function setStatus(t,to,text){
 
 /* ---------- create ticket ---------- */
 function openCreate(){
-  const team=F.team||U(ME).team;
+  const team=F.team||BOARD_TEAM||U(ME).team||TEAMS[0].id;
   modal(`<form class="mform" id="cf" onsubmit="submitCreate(event)">
     <header class="m-h"><div><h2>Buat Tiket Baru</h2><p class="muted">Isi data kasus. Batas SLA dihitung otomatis dari prioritas.</p></div><button type="button" class="iconbtn" onclick="closeModal()" aria-label="Tutup">${icon('x',18)}</button></header>
     <div class="m-b">
@@ -896,12 +1016,12 @@ function fillAssignee(){const f=$('#cf');f.assignee.innerHTML=`<option value="">
 function updPrev(){const f=$('#cf'),p=f.prio.value;$('#thint').textContent=`${TYPES[f.type.value].hint} · ${STEPS[f.type.value].length} langkah pengerjaan dibuat otomatis.`;
   $('#slaprev').innerHTML=`${icon('clock',18)}<div>Batas SLA otomatis: <b>${fmtL(Date.now()+hrs(p)*H)} WIB</b><div class="small muted">Prioritas ${PRIO[p].label} · target penyelesaian ${slaTarget(p)}</div></div>`}
 function submitCreate(e){e.preventDefault();const f=e.target,now=Date.now(),type=f.type.value;
-  const t={id:'n'+now,num:`${type}-${String(++COUNTER[type]).padStart(6,'0')}`,type,title:f.title.value.trim(),team:f.team.value,prio:f.prio.value,status:DEFAULT_ST(),assignee:f.assignee.value||null,reporter:ME,desc:f.desc.value.trim(),created:now,updated:now,pausedMs:0,pausedAt:null,resolved:null,resolution:null,steps:STEPS[type].map((text,j)=>({id:'s'+now+'_'+j,text,done:false,by:null,at:null})),events:[{at:now,by:ME,kind:'created'}]};
+  const t={id:'n'+now,num:`${type}-${String(++COUNTER[type]).padStart(6,'0')}`,type,title:f.title.value.trim(),team:f.team.value,prio:f.prio.value,status:DEFAULT_ST(f.team.value),assignee:f.assignee.value||null,reporter:ME,desc:f.desc.value.trim(),created:now,updated:now,pausedMs:0,pausedAt:null,resolved:null,resolution:null,steps:STEPS[type].map((text,j)=>({id:'s'+now+'_'+j,text,done:false,by:null,at:null})),events:[{at:now,by:ME,kind:'created'}]};
   if(t.assignee)t.events.push({at:now,by:ME,kind:'assigned',to:t.assignee});
   TK.unshift(t);closeModal();render();openDetail(t.id);toast(`Tiket ${t.num} dibuat`)}
 
 /* ---------- admin ---------- */
-let ADM='sla';
+let ADM='sla',ADM_TEAM='NET';
 function renderAdmin(){
   const tab=(k,l)=>`<button class="${ADM===k?'on':''}" onclick="ADM='${k}';render()">${l}</button>`;
   let body='';
@@ -926,31 +1046,33 @@ function renderAdmin(){
   else if(ADM==='tim')body=`<div class="teams">${TEAMS.map(tm=>{const m=members(tm.id),a=TK.filter(t=>t.team===tm.id&&!isDone(t));const lead=m.find(u=>u.role==='Lead Tim');return `<div class="card team-c"><div class="code">${tm.id}</div><h3>${esc(tm.name)}</h3><div class="small muted" style="margin-top:4px">Lead: ${lead?esc(lead.name):'—'}</div><div class="avs">${m.map(u=>av(u.id,30)).join('')}</div><div class="ft"><span><b>${m.length}</b> anggota</span><span><b>${a.length}</b> tiket aktif</span><button class="btn ghost sm" onclick="toast('Mockup: form edit tim')">Kelola</button></div></div>`}).join('')}
     <button class="card team-c" style="border-style:dashed;display:grid;place-items:center;color:var(--muted);cursor:pointer;min-height:170px;font-weight:600" onclick="toast('Mockup: form tambah tim')">${icon('plus',20)}<span>Tambah tim</span></button></div>`;
   else if(ADM==='status'){const D=sdraft(),cnt=id=>TK.filter(t=>t.status===id).length,def=(D.find(x=>x.cat==='open')||{}).id;
-    body=`<p class="muted" style="margin:-4px 0 14px;font-size:12.5px">Status menjadi kolom di Papan Tiket, berurutan dari atas ke bawah. Aturan SLA mengikuti <b>kategori</b>, bukan nama status, jadi Anda bebas menambah atau mengganti nama status.</p>
+    body=`<p class="muted" style="margin:-4px 0 12px;font-size:12.5px">Setiap tim punya alur status sendiri. Status menjadi kolom di papan tim, berurutan dari atas ke bawah. Aturan SLA mengikuti <b>kategori</b>, bukan nama status.</p>
+    <div class="tpick" role="tablist" aria-label="Pilih tim">${TEAMS.map(x=>`<button class="chip ${x.id===ADM_TEAM?'on':''}" onclick="pickAdmTeam('${x.id}')">${esc(x.name)} <b>${flow(x.id).length}</b></button>`).join('')}</div>
     ${SERR?`<div class="errbox">${esc(SERR)}</div>`:''}
     <div class="flow">${D.map((x,i)=>`${i?icon('arrow',13):''}<span class="badge st"><i style="background:${x.color}"></i>${esc(x.label)}</span>`).join('')}</div>
     <div class="card tablewrap"><table class="st-tbl"><thead><tr><th style="width:1%">Urutan</th><th style="width:1%">Warna</th><th>Nama status</th><th>Kategori</th><th>Tiket</th><th style="width:1%"></th></tr></thead><tbody>
     ${D.map((x,i)=>`<tr><td><div class="ord"><button class="iconbtn" ${i?'':'disabled'} onclick="moveS(${i},-1)" aria-label="Naikkan">${icon('up',14)}</button><button class="iconbtn" ${i<D.length-1?'':'disabled'} onclick="moveS(${i},1)" aria-label="Turunkan">${icon('down',14)}</button></div></td>
-      <td><input type="color" value="${x.color}" onchange="SDRAFT[${i}].color=this.value;render()" aria-label="Warna"></td>
-      <td><input class="input" value="${esc(x.label)}" onchange="SDRAFT[${i}].label=this.value;render()" aria-label="Nama status" style="max-width:260px">${x.id===def?' <span class="badge sla-ok" style="margin-left:6px">Status awal</span>':''}</td>
-      <td><select class="input" style="max-width:220px" onchange="SDRAFT[${i}].cat=this.value;render()" aria-label="Kategori">${Object.entries(CATS).map(([k,v])=>`<option value="${k}" ${x.cat===k?'selected':''}>${v.label}</option>`).join('')}</select></td>
+      <td><input type="color" value="${x.color}" onchange="sdraft()[${i}].color=this.value;render()" aria-label="Warna"></td>
+      <td><input class="input" value="${esc(x.label)}" onchange="sdraft()[${i}].label=this.value;render()" aria-label="Nama status" style="max-width:260px">${x.id===def?' <span class="badge sla-ok" style="margin-left:6px">Status awal</span>':''}</td>
+      <td><select class="input" style="max-width:220px" onchange="sdraft()[${i}].cat=this.value;render()" aria-label="Kategori">${Object.entries(CATS).map(([k,v])=>`<option value="${k}" ${x.cat===k?'selected':''}>${v.label}</option>`).join('')}</select></td>
       <td class="cnt">${x.isNew?'<span class="muted">baru</span>':cnt(x.id)}</td>
       <td><button class="iconbtn" onclick="delS(${i})" title="Hapus status" aria-label="Hapus status">${icon('x',16)}</button></td></tr>`).join('')}
     </tbody></table>
-    <div class="m-f" style="justify-content:space-between;border-radius:0 0 10px 10px"><button class="btn" onclick="addS()">${icon('plus',14)} Tambah status</button><span class="acts"><button class="btn" onclick="cancelS()">Batal</button><button class="btn primary" onclick="saveS()">Simpan status</button></span></div></div>
+    <div class="m-f" style="justify-content:space-between;border-radius:0 0 10px 10px"><button class="btn" onclick="addS()">${icon('plus',14)} Tambah status</button><span class="acts"><button class="btn" onclick="cancelS()">Batal</button><button class="btn primary" onclick="saveS()">Simpan status tim ${esc(T(ADM_TEAM).name)}</button></span></div></div>
     <div class="cats">${Object.entries(CATS).map(([k,v])=>`<div class="card c"><b>${v.label}</b><span>${v.desc}</span></div>`).join('')}</div>`}
   else if(ADM==='langkah')body=`<p class="hint" style="margin:-4px 0 14px">Daftar langkah awal untuk setiap tiket baru, per jenis. Satu langkah per baris. Engineer tetap bisa menambah, mengubah, atau menghapus langkah di masing-masing tiket.</p>
     <div class="tpls">${Object.entries(TYPES).map(([k,v])=>`<div class="card"><div class="card-h"><span class="badge ty-${k}">${v.label}</span><span class="sub">${STEPS[k].length} langkah</span></div><div class="card-b"><textarea class="input" id="tp-${k}" rows="6" aria-label="Langkah untuk ${v.label}">${esc(STEPS[k].join('\n'))}</textarea></div></div>`).join('')}</div>
     <div style="display:flex;justify-content:flex-end;gap:8px;margin-top:14px"><button class="btn" onclick="render()">Batal</button><button class="btn primary" onclick="saveTpl()">Simpan template</button></div>`;
-  else body=`<div class="card tablewrap"><table class="tbl" style="min-width:720px"><thead><tr><th>Nama</th><th>Email</th><th>Peran</th><th>Tim</th><th>Tiket aktif</th><th>Status</th></tr></thead><tbody>
-    ${USERS.map(u=>`<tr onclick="toast('Mockup: form edit pengguna')"><td>${who(u.id,28)}</td><td class="muted">${u.name.toLowerCase().replace(/ /g,'.')}@contoh.co.id</td><td><span class="badge ${u.role==='Admin'?'pr-P1':u.role==='Lead Tim'?'ty-CHG':'st'}">${u.role}</span></td><td>${u.team?esc(T(u.team).name):'—'}</td><td>${TK.filter(t=>t.assignee===u.id&&!isDone(t)).length}</td><td><span class="badge sla-ok">Aktif</span></td></tr>`).join('')}</tbody></table></div>`;
+  else body=`<div class="card tablewrap"><table class="tbl" style="min-width:720px"><thead><tr><th>Nama</th><th>Username</th><th>Email</th><th>Peran</th><th>Tim</th><th>Tiket aktif</th><th>Status</th></tr></thead><tbody>
+    ${USERS.map(u=>`<tr onclick="toast('Mockup: form edit pengguna')"><td>${who(u.id,28)}</td><td><code style="font-size:12px">${u.username}</code></td><td class="muted">${u.email}</td><td><span class="badge ${u.role==='Admin'?'pr-P1':u.role==='Lead Tim'?'ty-CHG':'st'}">${u.role}</span></td><td>${u.team?esc(T(u.team).name):'—'}</td><td>${TK.filter(t=>t.assignee===u.id&&!isDone(t)).length}</td><td><span class="badge sla-ok">Aktif</span></td></tr>`).join('')}</tbody></table></div>`;
   $('#view').innerHTML=`<div class="ph"><div><h1>Admin</h1><p>Pengaturan SLA, status, template langkah, tim, dan pengguna.</p></div>${ADM==='pengguna'?`<div class="acts"><button class="btn primary" onclick="toast('Mockup: form tambah pengguna')">${icon('plus',15)} Tambah pengguna</button></div>`:''}</div>
     <div class="tabs">${tab('sla','Kebijakan SLA')}${tab('status','Status & alur')}${tab('langkah','Template langkah')}${tab('tim','Tim')}${tab('pengguna','Pengguna')}</div>${body}`;
 }
 let SDRAFT=null,SMOVES={},SERR='';
-function sdraft(){if(!SDRAFT)SDRAFT=STATUSES.map(x=>({...x}));return SDRAFT}
+function sdraft(){if(!SDRAFT||SDRAFT.team!==ADM_TEAM){SDRAFT={team:ADM_TEAM,list:flow(ADM_TEAM).map(x=>({...x}))};SMOVES={};SERR=''}return SDRAFT.list}
+function pickAdmTeam(id){if(SDRAFT&&SDRAFT.team!==id)SDRAFT=null;ADM_TEAM=id;SERR='';render()}
 function moveS(i,d){const D=sdraft();[D[i],D[i+d]]=[D[i+d],D[i]];render()}
-function addS(){sdraft().push({id:'st'+Date.now(),label:'Status baru',color:'#8B5CF6',cat:'active',isNew:true});render();const ins=document.querySelectorAll('.st-tbl input.input');ins[ins.length-1]?.select()}
+function addS(){sdraft().push({id:`${ADM_TEAM}-n${Date.now()}`,label:'Status baru',color:'#8B5CF6',cat:'active',isNew:true});render();const ins=document.querySelectorAll('.st-tbl input.input');ins[ins.length-1]?.select()}
 function delS(i){const D=sdraft(),x=D[i],n=x.isNew?0:TK.filter(t=>t.status===x.id).length;
   if(!n){D.splice(i,1);render();return}
   const others=D.filter((y,j)=>j!==i);
@@ -964,19 +1086,15 @@ function saveS(){const D=sdraft();
   const names=D.map(x=>x.label.trim().toLowerCase());
   SERR=!D.length?'Minimal harus ada satu status.':D.some(x=>!x.label.trim())?'Nama status tidak boleh kosong.':names.some((n,i)=>names.indexOf(n)!==i)?'Nama status tidak boleh sama.':!D.some(x=>x.cat==='open')?'Harus ada minimal satu status berkategori "Belum dikerjakan" untuk tiket baru.':!D.some(x=>x.cat==='done')?'Harus ada minimal satu status berkategori "Selesai".':'';
   if(SERR){render();return}
-  const now=Date.now();
-  STATUSES.filter(x=>!D.some(y=>y.id===x.id)).forEach(x=>ARCHIVED_ST.push({...x}));
+  const now=Date.now(),cur=flow(ADM_TEAM);
+  cur.filter(x=>!D.some(y=>y.id===x.id)).forEach(x=>ARCHIVED_ST.push({...x}));
   D.forEach(x=>{x.label=x.label.trim();const a=ARCHIVED_ST.findIndex(y=>y.id===x.id);if(a>=0)ARCHIVED_ST.splice(a,1)});
   const oldCat={};TK.forEach(t=>oldCat[t.id]=cat(t));
   const moved=[];TK.forEach(t=>{if(SMOVES[t.status]){const from=t.status;t.status=SMOVES[from];moved.push([t,from])}});
-  STATUSES.splice(0,STATUSES.length,...D.map(({isNew,...x})=>x));
-  TK.forEach(t=>{const was=oldCat[t.id],c=cat(t);                    // keep SLA data consistent when a ticket's category changes
-    if(was==='paused'&&c!=='paused'&&t.pausedAt){t.pausedMs+=now-t.pausedAt;t.pausedAt=null}
-    if(c==='paused'&&!t.pausedAt)t.pausedAt=now;
-    if(c==='done'&&!t.resolved)t.resolved=now;
-    if(c!=='done'&&was==='done')t.resolved=null});
-  moved.forEach(([t,from])=>{t.events.push({at:now,by:'u0',kind:'status',from,to:t.status,text:'Status lama dihapus oleh Admin.'});touch(t)});
-  SDRAFT=null;SMOVES={};render();toast(`Status disimpan${moved.length?` · ${moved.length} tiket dipindahkan`:''}`)}
+  TST[ADM_TEAM]=D.map(({isNew,...x})=>x);
+  TK.forEach(t=>fixSla(t,oldCat[t.id],now));
+  moved.forEach(([t,from])=>{t.events.push({at:now,by:ME,kind:'status',from,to:t.status,text:'Status lama dihapus oleh Admin.'});touch(t)});
+  SDRAFT=null;SMOVES={};render();toast(`Status tim ${T(ADM_TEAM).name} disimpan${moved.length?` · ${moved.length} tiket dipindahkan`:''}`)}
 function saveTpl(){Object.keys(TYPES).forEach(k=>{const v=$('#tp-'+k).value.split('\n').map(x=>x.trim()).filter(Boolean);if(v.length)STEPS[k]=v});render();toast('Template langkah disimpan. Berlaku untuk tiket baru.')}
 function saveSla(){Object.keys(PRIO).forEach(k=>{const v=+$('#sv-'+k).value;if(v>0)PRIO[k].val=v;PRIO[k].unit=$('#su-'+k).value});render();toast('Kebijakan SLA disimpan')}
 
@@ -985,16 +1103,19 @@ function modal(html,size=''){$('#modal-root').innerHTML=`<div class="overlay m" 
 function closeModal(){$('#modal-root').innerHTML=''}
 function toast(msg){const el=document.createElement('div');el.className='toast';el.innerHTML=`${icon('check',15,2.6)}<span>${esc(msg)}</span>`;$('#toast-root').appendChild(el);setTimeout(()=>el.classList.add('out'),2600);setTimeout(()=>el.remove(),3000)}
 function togglePop(e){e.stopPropagation();const r=$('#pop-root');if(r.innerHTML){r.innerHTML='';return}
-  const mine=TK.filter(t=>t.team===U(ME).team&&!isDone(t)&&(sla(t).breached||sla(t).risk)).sort((a,b)=>sla(a).due-sla(b).due).slice(0,5);
-  r.innerHTML=`<div class="pop" onclick="event.stopPropagation()"><h4>Notifikasi · Tim ${T(U(ME).team).name}</h4>${mine.map(t=>{const s=sla(t);return `<div class="it" onclick="$('#pop-root').innerHTML='';openDetail('${t.id}')"><span class="ic sla-${s.k}">${icon(SLAI[s.k],14)}</span><div><b>${t.num}</b> ${s.breached?'sudah lewat SLA':'hampir lewat SLA'}<div class="muted">${esc(t.title)}</div></div></div>`}).join('')||'<div class="it muted">Tidak ada notifikasi.</div>'}</div>`}
+  const myTeam=U(ME).team;
+  const mine=TK.filter(t=>(!myTeam||t.team===myTeam)&&!isDone(t)&&(sla(t).breached||sla(t).risk)).sort((a,b)=>sla(a).due-sla(b).due).slice(0,5);
+  r.innerHTML=`<div class="pop" onclick="event.stopPropagation()"><h4>Notifikasi · ${myTeam?'Tim '+T(myTeam).name:'Semua tim'}</h4>${mine.map(t=>{const s=sla(t);return `<div class="it" onclick="$('#pop-root').innerHTML='';openDetail('${t.id}')"><span class="ic sla-${s.k}">${icon(SLAI[s.k],14)}</span><div><b>${t.num}</b> ${s.breached?'sudah lewat SLA':'hampir lewat SLA'}<div class="muted">${esc(t.title)}</div></div></div>`}).join('')||'<div class="it muted">Tidak ada notifikasi.</div>'}</div>`}
 document.addEventListener('click',()=>{$('#pop-root').innerHTML=''});
 
 /* ---------- global search & keys ---------- */
 $('#q').addEventListener('input',e=>{F.q=e.target.value;if(VIEW==='dashboard'||VIEW==='admin'){if(F.q)go('tiket')}else render()});
 document.addEventListener('keydown',e=>{
   if(e.key==='Escape'){if($('#modal-root').innerHTML)closeModal();else if(openId)closeDrawer();else $('#pop-root').innerHTML=''}
+  if(!ME)return;
   if(e.key==='/'&&!/INPUT|TEXTAREA|SELECT/.test(document.activeElement.tagName)){e.preventDefault();$('#q').focus()}
 });
+restore();if(ME){const u=U(ME);BOARD_TEAM=u.team||'';ADM_TEAM=u.team||TEAMS[0].id}
 render();
 </script>
 </body>

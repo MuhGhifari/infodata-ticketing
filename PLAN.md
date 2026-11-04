@@ -33,7 +33,13 @@ Customer-facing portal, email-to-ticket, file attachments, email/WhatsApp notifi
 | **Engineer** | Engineers | Create tickets for any team; update tickets assigned to them or in their team; add work notes |
 | **Viewer** *(optional)* | Management | Read-only: all tickets and the dashboard |
 
-A user belongs to one or more teams. Permissions are enforced on the server; the UI only hides controls the user can't use.
+A user belongs to one or more teams. Permissions are enforced on the server; the UI only hides controls the user can't use. Only Admins see the Admin menu; only Lead Tim and Admin can reopen a closed ticket.
+
+### Login & default admin
+
+- Everyone signs in on a **login page** (username or email + password, "Ingat saya", "Lupa password?" → contact Admin). There is no self-registration; Admin creates accounts.
+- On first install the database is seeded with one **default Admin: Muamar Azzriel Fattah** (username `admin`). The initial password is generated during setup (or set via an environment variable) and **must be changed on first login**; it is never stored in the code.
+- The mockup shows demo accounts with visible passwords (`admin / admin123`, `rizky / demo123`, `fajar / demo123`) purely so the client can click through roles. That box does not exist in the real app.
 
 ---
 
@@ -49,14 +55,14 @@ A user belongs to one or more teams. Permissions are enforced on the server; the
 | **Deskripsi** (description) | Markdown |
 | **Penanggung jawab** (assignee) | One user from the ticket's team; may be empty while the ticket is in a *Belum dikerjakan* status |
 | **Pelapor** (reporter) | The user who opened it (automatic) |
-| **Status** | One of the **admin-defined statuses** (see below). Defaults from the brief: `Terbuka` → `Dikerjakan` ⇄ `Menunggu` → `Selesai` |
+| **Status** | One of **its team's** admin-defined statuses (see below). Defaults from the brief: `Terbuka` → `Dikerjakan` ⇄ `Menunggu` → `Selesai` |
 | **Batas SLA** (SLA deadline) | **Calculated automatically** from priority when the ticket is created; recalculated if priority changes |
 | **Langkah pengerjaan** (work steps) | A checklist copied from the ticket type's template when the ticket is created; engineers can tick, add, rename or delete steps. **Progress = ticked steps ÷ total steps** |
 | **Riwayat** (history) | Work notes plus every field and status change, with who made it and when |
 
-### Statuses (admin-defined)
+### Statuses (admin-defined, per team)
 
-Admins manage the list of statuses in **Admin → Status & alur**: add, rename, recolor, reorder and delete. The order is the column order on the board. Each status belongs to one of four fixed **categories**, and all rules hang off the category, never off the status name:
+**Every team has its own board and its own list of statuses.** Admins manage each team's list in **Admin → Status & alur** (pick the team, then add, rename, recolor, reorder and delete). The order is the column order on that team's board. Each status belongs to one of four fixed **categories**, and all rules hang off the category, never off the status name:
 
 | Category | SLA | Required on entry | Notes |
 |---|---|---|---|
@@ -66,6 +72,13 @@ Admins manage the list of statuses in **Admin → Status & alur**: add, rename, 
 | **Selesai** (done) | Stopped | Resolution note | Counts as closed in the dashboard and "selesai tepat waktu" |
 
 Defaults (from the client brief): `Terbuka` (open) → `Dikerjakan` (active) ⇄ `Menunggu` (paused) → `Selesai` (done). Example additions: `Verifikasi User` (paused), `Eskalasi Vendor` (paused), `Review` (active).
+
+Mockup examples per team: Network adds `Menunggu Vendor` and `Verifikasi User`; Database adds `Analisis`; Aplikasi uses `Backlog → Dikerjakan → Testing → Menunggu → Rilis / Selesai`; Security adds `Investigasi` and `Mitigasi`.
+
+- **Team boards:** each team's board shows that team's statuses as columns.
+- **All-teams board:** because teams' statuses differ, the "Semua tim" board groups cards by **category** (4 columns) and shows each card's own status on the card. Dropping a card on a category moves it to the first status of that category in the ticket's own team.
+- **Moving a ticket to another team:** its status switches to the first status of the same category in the new team's flow (falls back to the new team's starting status), and this is logged in the history.
+- Dashboard and reports compare teams by category, so different flows never break the numbers.
 
 Rules:
 - There must always be at least one *Belum dikerjakan* status and one *Selesai* status; names must be unique.
@@ -95,14 +108,14 @@ Rules:
 
 All UI text is in **Bahasa Indonesia**. Branding comes from the client logo (`assets/brand/infodata-logo.jpg`): red **#E40114**, near-black **#231917**, white.
 
-1. **Login**
+1. **Login**: username/email + password, remember me; branded with the Info Data logo
 2. **Dashboard** (home page)
    - KPI tiles: **Tiket aktif** (active tickets), **Lewat SLA** (breached), **Hampir lewat SLA** (at risk), **Selesai minggu ini** (done this week)
    - **Beban kerja per tim** (workload per team): active tickets per team, stacked by priority
    - Workload per engineer within a team (for leads)
    - Lists: tickets about to breach, recently opened
    - Filters: team, type, priority, status, assignee, date range, plus search
-3. **Papan** (board, kanban): one column per admin-defined status, in the admin's order (scrolls sideways when there are many). Drag a card to change its status; the dialog asks for a reason or resolution note when needed. Cards show the number, title, type, priority, assignee and an SLA countdown. Can be filtered per team, or "Tiket saya" (my tickets).
+3. **Papan** (board, kanban): one board per team (listed in the sidebar under *Papan tim*), one column per status of that team, plus an all-teams board grouped by category. Scrolls sideways when a team has many statuses. Drag a card to change its status; the dialog asks for a reason or resolution note when needed. Cards show the number, title, type, priority, assignee and an SLA countdown. Can be filtered per team, or "Tiket saya" (my tickets).
 4. **Daftar tiket** (ticket list): a sortable table with the same filters and search, plus CSV export.
 5. **Buat tiket** (new ticket form).
 6. **Detail tiket**: fields, SLA bar, and a timeline of work notes and changes, with a box to add a work note.
@@ -144,7 +157,7 @@ holidays (for business-day SLA)
 ```
 
 - **users** — id, name, email (unique), password_hash, role (`admin` | `lead` | `engineer` | `viewer`), active, created_at
-- **statuses** — id, label, color, category (`open` | `active` | `paused` | `done`), position, archived_at? (archived instead of hard-deleted, so old history still shows the name)
+- **statuses** — id, team_id → teams, label, color, category (`open` | `active` | `paused` | `done`), position, archived_at? (archived instead of hard-deleted, so old history still shows the name)
 - **teams** — id, name, code, active
 - **team_members** — team_id, user_id, is_lead
 - **tickets** — id, number (`INC-000123`), type, title, description, team_id, priority, status_id → statuses, assignee_id?, reporter_id, sla_due_at, sla_paused_at?, sla_paused_total_minutes, first_response_at?, resolved_at?, resolution_note?, created_at, updated_at, search_vector (tsvector)
@@ -178,7 +191,7 @@ GET    /dashboard/summary?team=&from=&to=   # KPI tiles
 GET    /dashboard/workload?…                # per team / per engineer
 
 GET|POST|PATCH  /admin/users, /admin/teams, /admin/teams/:id/members
-GET|PUT         /admin/statuses           # whole ordered list; body may include { moves: {deletedId: targetId} }
+GET|PUT         /admin/teams/:id/statuses # team's whole ordered list; body may include { moves: {deletedId: targetId} }
 GET|PUT         /admin/sla-policies
 GET|POST|DELETE /admin/holidays
 ```
@@ -208,7 +221,7 @@ GET|POST|DELETE /admin/holidays
 | # | Milestone | Deliverable |
 |---|---|---|
 | **M0** | Scaffold | Monorepo, Docker Compose with Postgres, Prisma schema, lint + CI, Info Data theme and layout |
-| **M1** | Auth & admin | Login, roles, user and team management, seed data |
+| **M1** | Auth & admin | Login page, sessions, roles, default Admin (Muamar Azzriel Fattah) with forced password change, user and team management, seed data |
 | **M2** | Tickets core | Create, list, detail and edit tickets; numbering; work notes; history timeline |
 | **M3** | Status & SLA | Status flow with reasons; SLA calculation (business hours, holidays, pause in Menunggu-category statuses); admin-defined statuses with categories with full unit tests; SLA badges |
 | **M4** | Board | Kanban with one column per admin-defined status, drag-to-change-status, team and "my tickets" filters |

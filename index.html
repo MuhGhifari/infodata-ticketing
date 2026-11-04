@@ -453,6 +453,9 @@ select.input{appearance:none;padding-right:30px;cursor:pointer;background-image:
   .top .btn .lbl,.top .meName,.search kbd{display:none}
   .search input{padding-right:10px}
   .top .spacer{display:none}
+  /* iOS Safari zooms into any field with text under 16px; 16px stops that */
+  input,select,textarea{font-size:16px!important}
+  .h1sel{font-size:19px!important}
   .search{max-width:none}
   #view{padding:18px 16px 40px}
   .fields,.two{grid-template-columns:1fr}

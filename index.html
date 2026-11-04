@@ -169,7 +169,7 @@ select.input{appearance:none;padding-right:30px;cursor:pointer;background-image:
 .eng-bar span{display:block;height:100%;background:var(--ink-2);border-radius:99px}
 
 /* ---------- board ---------- */
-.board{display:grid;grid-template-columns:repeat(4,minmax(272px,1fr));gap:14px;overflow-x:auto;padding-bottom:10px;align-items:start}
+.board{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(272px,1fr);gap:14px;overflow-x:auto;padding-bottom:10px;align-items:start}
 .col{background:var(--col);border-radius:12px;padding:8px;display:flex;flex-direction:column;min-height:480px;border:2px solid transparent;transition:background .12s,border-color .12s}
 .col.over{border-color:var(--brand);border-style:dashed;background:var(--brand-50)}
 .col-h{display:flex;align-items:center;gap:8px;padding:6px 8px 10px;font-weight:700;font-size:13.5px}
@@ -219,8 +219,8 @@ select.input{appearance:none;padding-right:30px;cursor:pointer;background-image:
 .dr-b{padding:18px 22px 40px;overflow-y:auto;flex:1}
 .dr-b section{margin-top:22px}
 .dr-b h4{margin:0 0 10px;font-size:12px;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);font-weight:700}
-.stepper{display:grid;grid-template-columns:repeat(4,1fr);gap:0;border:1px solid var(--line);border-radius:9px;overflow:hidden}
-.stepper button{border:0;border-right:1px solid var(--line);background:#fff;height:38px;cursor:pointer;font-weight:600;font-size:13px;display:flex;align-items:center;justify-content:center;gap:7px;color:var(--ink-2)}
+.stepper{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(118px,1fr);overflow-x:auto;gap:0;border:1px solid var(--line);border-radius:9px;overflow:hidden}
+.stepper button{white-space:nowrap;padding:0 10px;border:0;border-right:1px solid var(--line);background:#fff;height:38px;cursor:pointer;font-weight:600;font-size:13px;display:flex;align-items:center;justify-content:center;gap:7px;color:var(--ink-2)}
 .stepper button:last-child{border-right:0}
 .stepper button i{width:8px;height:8px;border-radius:50%}
 .stepper button:hover{background:var(--line-2)}
@@ -309,9 +309,27 @@ select.input{appearance:none;padding-right:30px;cursor:pointer;background-image:
 .tpls{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
 .still{animation:none!important}
 
+/* ---------- status admin ---------- */
+.flow{display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-bottom:14px}
+.flow svg{color:var(--muted)}
+.st-tbl{width:100%;border-collapse:collapse;min-width:760px}
+.st-tbl th{text-align:left;font-size:12px;color:var(--muted);font-weight:700;padding:10px 14px;border-bottom:1px solid var(--line)}
+.st-tbl td{padding:8px 14px;border-bottom:1px solid var(--line-2);vertical-align:middle}
+.st-tbl input[type=color]{width:34px;height:30px;border:1px solid var(--line);border-radius:7px;padding:2px;background:#fff;cursor:pointer}
+.st-tbl .ord{display:flex;flex-direction:column}
+.st-tbl .ord .iconbtn{width:24px;height:18px}
+.st-tbl .ord .iconbtn:disabled{opacity:.25;cursor:default}
+.st-tbl .cnt{font-variant-numeric:tabular-nums;font-weight:600}
+.cats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-top:16px}
+.cats .c{padding:12px 14px}
+.cats .c b{display:block;font-size:13px}
+.cats .c span{font-size:12px;color:var(--muted)}
+.errbox{background:var(--bad-bg);color:var(--bad);border-radius:10px;padding:10px 12px;font-size:13px;font-weight:600;margin-bottom:12px}
+@media (max-width:900px){.cats{grid-template-columns:1fr 1fr}}
+
 /* ---------- admin ---------- */
-.tabs{display:flex;gap:4px;border-bottom:1px solid var(--line);margin-bottom:18px}
-.tabs button{border:0;background:none;padding:10px 14px;font-weight:600;color:var(--muted);cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px}
+.tabs{display:flex;gap:4px;overflow-x:auto;white-space:nowrap;border-bottom:1px solid var(--line);margin-bottom:18px}
+.tabs button{flex:none;border:0;background:none;padding:10px 14px;font-weight:600;color:var(--muted);cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px}
 .tabs button.on{color:var(--ink);border-bottom-color:var(--brand)}
 .sla-tbl{width:100%;border-collapse:collapse}
 .sla-tbl th{text-align:left;font-size:12px;color:var(--muted);font-weight:700;padding:10px 18px;border-bottom:1px solid var(--line)}
@@ -366,7 +384,7 @@ select.input{appearance:none;padding-right:30px;cursor:pointer;background-image:
   .fields,.two{grid-template-columns:1fr}
   .seg{grid-template-columns:1fr 1fr}
   .wl-row{grid-template-columns:110px minmax(0,1fr) 28px}
-  .board{grid-template-columns:repeat(4,85vw);scroll-snap-type:x mandatory}
+  .board{grid-auto-columns:85vw;scroll-snap-type:x mandatory}
   .col{scroll-snap-align:start}
   .stepper button{font-size:12px}
   .pop{position:fixed;left:12px;right:12px;width:auto;top:66px}
@@ -470,8 +488,21 @@ const USERS=[
 const ME='u1';
 const TYPES={INC:{label:'Insiden',hint:'Gangguan yang membuat layanan terhenti atau menurun.'},SR:{label:'Permintaan Layanan',hint:'Permintaan rutin: akun, akses, instalasi, perangkat.'},CHG:{label:'Perubahan',hint:'Perubahan terencana pada sistem atau infrastruktur.'},PRB:{label:'Masalah Berulang',hint:'Mencari akar masalah dari insiden yang terjadi berulang.'}};
 const PRIO={P1:{label:'Kritis',val:4,unit:'jam',ex:'Layanan produksi mati'},P2:{label:'Tinggi',val:8,unit:'jam',ex:'Fungsi utama terganggu'},P3:{label:'Sedang',val:3,unit:'hari',ex:'Permintaan / gangguan biasa'},P4:{label:'Rendah',val:5,unit:'hari',ex:'Minor atau kosmetik'}};
-const STATUSES=['Terbuka','Dikerjakan','Menunggu','Selesai'];
-const STC={Terbuka:'#3B82F6',Dikerjakan:'#F59E0B',Menunggu:'#64748B',Selesai:'#16A34A'};
+/* Statuses are admin-defined. Behaviour comes from the category, never from the name. */
+const CATS={
+ open:{label:'Belum dikerjakan',desc:'SLA berjalan. Status pertama di kategori ini jadi status awal tiket baru.'},
+ active:{label:'Sedang dikerjakan',desc:'SLA berjalan.'},
+ paused:{label:'Menunggu',desc:'SLA dijeda. Wajib isi alasan.'},
+ done:{label:'Selesai',desc:'SLA berhenti. Wajib isi catatan penyelesaian. Dihitung sebagai tiket tertutup.'}};
+const STATUSES=[
+ {id:'open',label:'Terbuka',color:'#3B82F6',cat:'open'},
+ {id:'prog',label:'Dikerjakan',color:'#F59E0B',cat:'active'},
+ {id:'wait',label:'Menunggu',color:'#64748B',cat:'paused'},
+ {id:'done',label:'Selesai',color:'#16A34A',cat:'done'}];
+const ARCHIVED_ST=[];
+const ST=id=>STATUSES.find(x=>x.id===id)||ARCHIVED_ST.find(x=>x.id===id)||{id,label:id,color:'#999',cat:'active'};
+const CAT=id=>ST(id).cat, cat=t=>CAT(t.status), isDone=t=>cat(t)==='done';
+const DEFAULT_ST=()=>(STATUSES.find(x=>x.cat==='open')||STATUSES[0]).id;
 const PRC={P1:'var(--p1)',P2:'var(--p2)',P3:'var(--p3)',P4:'var(--p4)'};
 const AVC=['#7C3AED','#0E7490','#B45309','#15803D','#BE185D','#1D4ED8','#4D7C0F','#9333EA','#0F766E','#C2410C','#475569','#A21CAF','#0369A1','#B91C1C','#4338CA','#334155'];
 const hrs=p=>PRIO[p].unit==='hari'?PRIO[p].val*24:PRIO[p].val;          // mockup: calendar hours (real app: business hours)
@@ -519,27 +550,27 @@ const RESOLUTIONS=['Konfigurasi diperbaiki dan sudah diverifikasi bersama user.'
 const COUNTER={INC:1180,SR:2410,CHG:312,PRB:41};
 const NOW0=Date.now();
 let TK=SEED.map(([type,title,team],i)=>{
-  const status=wpick({Terbuka:22,Dikerjakan:38,Menunggu:14,Selesai:26});
+  const status=wpick({open:22,prog:38,wait:14,done:26});
   const prio=type==='INC'?wpick({P1:30,P2:40,P3:25,P4:5}):type==='CHG'?wpick({P2:30,P3:50,P4:20}):wpick({P2:15,P3:55,P4:30});
   const tot=hrs(prio)*H; const team_m=members(team);
   const t={id:'t'+i,type,title,team,prio,status,assignee:null,reporter:pick(USERS.filter(u=>u.team)).id,events:[],pausedMs:0,pausedAt:null,resolved:null,resolution:null};
-  if(status==='Selesai'){t.created=NOW0-(8*H+R()*6*D);t.resolved=Math.min(NOW0-H,t.created+tot*(R()<.18?1.2+R()*.5:.2+R()*.7))}
+  if(status==='done'){t.created=NOW0-(8*H+R()*6*D);t.resolved=Math.min(NOW0-H,t.created+tot*(R()<.18?1.2+R()*.5:.2+R()*.7))}
   else t.created=NOW0-tot*(R()<.22?1.05+R()*.5:(R()<.25?.76+R()*.2:.05+R()*.65));
-  if(status!=='Terbuka'||R()<.45)t.assignee=pick(team_m).id;
+  if(status!=='open'||R()<.45)t.assignee=pick(team_m).id;
   t.desc=DESC[type].replace('{t}',title);
   const ev=(at,o)=>t.events.push({at:Math.round(at),...o});
   ev(t.created,{by:t.reporter,kind:'created'});
   let c=t.created+(5+R()*20)*60e3;
   if(t.assignee){ev(c,{by:U(t.assignee).role==='Lead Tim'?t.assignee:members(team)[0].id,kind:'assigned',to:t.assignee})}
-  const tpl=STEPS[type],nS=tpl.length,doneN=status==='Selesai'?nS:status==='Terbuka'?0:1+Math.floor(R()*(nS-1));
+  const tpl=STEPS[type],nS=tpl.length,doneN=status==='done'?nS:status==='open'?0:1+Math.floor(R()*(nS-1));
   t.steps=tpl.map((text,j)=>({id:'s'+i+'_'+j,text,done:j<doneN,by:null,at:null}));
-  if(status!=='Terbuka'){c+=(5+R()*30)*60e3;ev(c,{by:t.assignee,kind:'status',from:'Terbuka',to:'Dikerjakan'});
-    const end=status==='Selesai'?t.resolved:NOW0;
+  if(status!=='open'){c+=(5+R()*30)*60e3;ev(c,{by:t.assignee,kind:'status',from:'open',to:'prog'});
+    const end=status==='done'?t.resolved:NOW0;
     t.steps.slice(0,doneN).forEach((st,j)=>{st.by=t.assignee;st.at=Math.round(c+(end-c)*.85*(j+1)/(doneN+.5));ev(st.at,{by:t.assignee,kind:'step',done:true,step:st.text})});
     c=c+(end-c)*.35;ev(c,{by:t.assignee,kind:'note',text:pick(NOTES)});
     if(R()<.5){c=c+(end-c)*.4;ev(c,{by:t.assignee,kind:'note',text:pick(NOTES)})}
-    if(status==='Menunggu'){c=c+(end-c)*.5;t.pausedAt=Math.round(c);ev(c,{by:t.assignee,kind:'status',from:'Dikerjakan',to:'Menunggu',text:pick(WAIT_REASONS)})}
-    if(status==='Selesai'){t.resolution=pick(RESOLUTIONS);ev(t.resolved,{by:t.assignee,kind:'status',from:'Dikerjakan',to:'Selesai',text:t.resolution})}
+    if(status==='wait'){c=c+(end-c)*.5;t.pausedAt=Math.round(c);ev(c,{by:t.assignee,kind:'status',from:'prog',to:'wait',text:pick(WAIT_REASONS)})}
+    if(status==='done'){t.resolution=pick(RESOLUTIONS);ev(t.resolved,{by:t.assignee,kind:'status',from:'prog',to:'done',text:t.resolution})}
   }
   t.events.sort((a,b)=>a.at-b.at);t.updated=t.events[t.events.length-1].at;
   return t;
@@ -559,8 +590,8 @@ function rel(ms){const d=Date.now()-ms,m=Math.round(d/60e3);if(m<1)return 'baru 
 /* ---------- SLA ---------- */
 function sla(t){
   const total=hrs(t.prio)*H, now=Date.now(), base=t.created+total+(t.pausedMs||0);
-  if(t.status==='Selesai'){const ok=t.resolved<=base;return{k:ok?'done':'late',label:ok?'SLA tercapai':'Selesai terlambat '+dur(t.resolved-base),due:base,pct:1}}
-  if(t.status==='Menunggu'){const rem=base-t.pausedAt;return{k:'pause',label:rem>0?'Dijeda · sisa '+dur(rem):'Dijeda · lewat '+dur(rem),due:base+(now-t.pausedAt),pct:Math.min(1,(t.pausedAt-t.created-(t.pausedMs||0))/total),breached:rem<0}}
+  if(isDone(t)){const ok=t.resolved<=base;return{k:ok?'done':'late',label:ok?'SLA tercapai':'Selesai terlambat '+dur(t.resolved-base),due:base,pct:1}}
+  if(cat(t)==='paused'){const rem=base-t.pausedAt;return{k:'pause',label:rem>0?'Dijeda · sisa '+dur(rem):'Dijeda · lewat '+dur(rem),due:base+(now-t.pausedAt),pct:Math.min(1,(t.pausedAt-t.created-(t.pausedMs||0))/total),breached:rem<0}}
   const used=(now-t.created-(t.pausedMs||0))/total;
   if(now>base)return{k:'bad',label:'Lewat SLA '+dur(now-base),due:base,pct:1,breached:true};
   return{k:used>=.75?'warn':'ok',label:'Sisa '+dur(base-now),due:base,pct:used,risk:used>=.75};
@@ -572,7 +603,7 @@ function pgHtml(t,pct=false){const p=prog(t);if(!p.n)return '<div class="pg">Bel
   return `<div class="pg ${p.d===p.n?'full':''}" title="Progres pengerjaan: ${p.d} dari ${p.n} langkah selesai"><div class="pgbar"><span style="width:${p.pct*100}%"></span></div><span>${pct?Math.round(p.pct*100)+'%':p.d+'/'+p.n}</span></div>`}
 const typeBadge=k=>`<span class="badge ty-${k}">${TYPES[k].label}</span>`;
 const prioBadge=p=>`<span class="badge pr-${p}"><i></i>${PRIO[p].label}</span>`;
-const statusBadge=s=>`<span class="badge st"><i style="background:${STC[s]}"></i>${s}</span>`;
+const statusBadge=id=>{const x=ST(id);return `<span class="badge st"><i style="background:${x.color}"></i>${esc(x.label)}</span>`};
 function av(id,size=24){
   if(!id)return `<span class="av empty" style="width:${size}px;height:${size}px" title="Belum ditugaskan">${icon('user',Math.round(size*.5))}</span>`;
   const u=U(id),i=USERS.indexOf(u),ini=u.name.split(' ').map(w=>w[0]).slice(0,2).join('');
@@ -586,9 +617,9 @@ function filtered(list){const q=F.q.trim().toLowerCase();return list.filter(t=>{
   if(F.team&&t.team!==F.team)return false;
   if(F.type&&t.type!==F.type)return false;
   if(F.prio&&t.prio!==F.prio)return false;
-  if(F.status==='aktif'?t.status==='Selesai':F.status&&t.status!==F.status)return false;
+  if(F.status==='aktif'?isDone(t):F.status==='selesai'?!isDone(t):F.status&&t.status!==F.status)return false;
   if(F.assignee&&(F.assignee==='none'?t.assignee:t.assignee!==F.assignee))return false;
-  if(F.sla){if(t.status==='Selesai')return false;const s=sla(t);if(F.sla==='breached'&&!s.breached)return false;if(F.sla==='risk'&&!s.risk)return false;if(F.sla==='ok'&&(s.breached||s.risk))return false}
+  if(F.sla){if(isDone(t))return false;const s=sla(t);if(F.sla==='breached'&&!s.breached)return false;if(F.sla==='risk'&&!s.risk)return false;if(F.sla==='ok'&&(s.breached||s.risk))return false}
   if(q&&!(t.num.toLowerCase().includes(q)||t.title.toLowerCase().includes(q)||t.desc.toLowerCase().includes(q)||t.events.some(e=>(e.text||'').toLowerCase().includes(q))))return false;
   return true})}
 function setF(k,v){F[k]=v;if(k==='team'&&F.assignee&&F.assignee!=='none'&&v&&U(F.assignee).team!==v)F.assignee='';render()}
@@ -600,7 +631,7 @@ function filterBar(o={}){return `<div class="filters">
   ${sel('team','Semua tim',TEAMS.map(t=>[t.id,t.name]))}
   ${sel('type','Semua jenis',Object.entries(TYPES).map(([k,v])=>[k,v.label]))}
   ${sel('prio','Semua prioritas',Object.entries(PRIO).map(([k,v])=>[k,v.label]))}
-  ${o.status?sel('status','Semua status',[['aktif','Semua yang aktif'],...STATUSES.map(s=>[s,s])]):''}
+  ${o.status?sel('status','Semua status',[['aktif','Semua yang aktif'],['selesai','Semua yang selesai'],...STATUSES.map(x=>[x.id,x.label])]):''}
   ${sel('assignee','Semua penanggung jawab',[['none','Belum ditugaskan'],...USERS.filter(u=>u.team&&(!F.team||u.team===F.team)).map(u=>[u.id,u.name])])}
   ${sel('sla','Semua SLA',[['breached','Lewat SLA'],['risk','Hampir lewat SLA'],['ok','Aman']])}
   ${F.q?`<span class="chip on">${icon('list',13)} “${esc(F.q)}” <button onclick="clearQ()" aria-label="Hapus pencarian">${icon('x',13)}</button></span>`:''}
@@ -619,7 +650,7 @@ function render(){
 window.addEventListener('hashchange',()=>{toggleSide(false);render();window.scrollTo(0,0)});
 
 function renderNav(){
-  const act=TK.filter(t=>t.status!=='Selesai'), mine=act.filter(t=>t.assignee===ME), br=act.filter(t=>sla(t).breached).length;
+  const act=TK.filter(t=>!isDone(t)), mine=act.filter(t=>t.assignee===ME), br=act.filter(t=>sla(t).breached).length;
   const item=(v,ic,label,count,extra='')=>`<a class="${VIEW===v&&!(v==='papan'&&F.mine!==(extra==='mine'))?'active':''}" onclick="${extra==='mine'?`F.mine=true;go('papan')`:`${v==='papan'?'F.mine=false;':''}go('${v}')`}">${icon(ic,17)}${label}${count!=null?`<span class="count ${extra==='alert'&&count?'alert':''}">${count}</span>`:''}</a>`;
   $('#nav').innerHTML=`<div class="sec">Menu</div>
    ${item('dashboard','dash','Dashboard',br,'alert')}
@@ -635,9 +666,9 @@ function toggleSide(on){$('#side').classList.toggle('open',on);$('#scrim').class
 
 /* ---------- dashboard ---------- */
 function renderDashboard(){
-  const now=Date.now(), all=TK.filter(t=>!F.team||t.team===F.team), act=all.filter(t=>t.status!=='Selesai');
+  const now=Date.now(), all=TK.filter(t=>!F.team||t.team===F.team), act=all.filter(t=>!isDone(t));
   const br=act.filter(t=>sla(t).breached), risk=act.filter(t=>sla(t).risk);
-  const done=all.filter(t=>t.status==='Selesai'&&t.resolved>now-7*D), ontime=done.filter(t=>sla(t).k==='done').length;
+  const done=all.filter(t=>isDone(t)&&t.resolved>now-7*D), ontime=done.filter(t=>sla(t).k==='done').length;
   const pc=p=>act.filter(t=>t.prio===p).length;
   const teams=(F.team?TEAMS.filter(t=>t.id===F.team):TEAMS).map(tm=>{const a=act.filter(t=>t.team===tm.id);return{tm,a,by:['P1','P2','P3','P4'].map(p=>a.filter(t=>t.prio===p).length),br:a.filter(t=>sla(t).breached).length}}).sort((x,y)=>y.a.length-x.a.length);
   const max=Math.max(1,...teams.map(x=>x.a.length));
@@ -653,7 +684,7 @@ function renderDashboard(){
     ${kpi('', 'inbox','Tiket aktif',act.length,`${pc('P1')} Kritis · ${pc('P2')} Tinggi · ${pc('P3')+pc('P4')} lainnya`,`resetF();${tf}F.status='aktif';go('tiket')`)}
     ${kpi('bad','flame','Lewat SLA',br.length,`${act.length?Math.round(br.length/act.length*100):0}% dari tiket aktif`,`resetF();${tf}F.sla='breached';go('tiket')`)}
     ${kpi('warn','alert','Hampir lewat SLA',risk.length,'≥ 75% waktu SLA sudah terpakai',`resetF();${tf}F.sla='risk';go('tiket')`)}
-    ${kpi('ok','checkc','Selesai 7 hari terakhir',done.length,`${done.length?Math.round(ontime/done.length*100):0}% selesai tepat waktu`,`resetF();${tf}F.status='Selesai';go('tiket')`)}
+    ${kpi('ok','checkc','Selesai 7 hari terakhir',done.length,`${done.length?Math.round(ontime/done.length*100):0}% selesai tepat waktu`,`resetF();${tf}F.status='selesai';go('tiket')`)}
   </div>
   <div class="g2">
     <div class="card"><div class="card-h"><div><h3>Beban kerja per tim</h3><div class="sub">Tiket aktif menurut prioritas</div></div>
@@ -664,7 +695,7 @@ function renderDashboard(){
           <div class="bar" style="width:${Math.max(4,x.a.length/max*100)}%">${x.by.map((n,i)=>n?`<span style="flex:${n};background:${PRC['P'+(i+1)]}" title="${PRIO['P'+(i+1)].label}: ${n}"></span>`:'').join('')||'<span style="flex:1;background:var(--line-2)"></span>'}</div>
           <div class="tot">${x.a.length}</div></div>`).join('')}</div></div>
     <div class="card"><div class="card-h"><div><h3>Status tiket</h3><div class="sub">Semua tiket ${F.team?'tim ini':''}</div></div></div>
-      <div class="card-b">${STATUSES.map(s=>{const n=all.filter(t=>t.status===s).length;return `<div class="stat-row"><span>${statusBadge(s)}</span><div class="track"><span style="width:${n/Math.max(1,all.length)*100}%;background:${STC[s]}"></span></div><b>${n}</b></div>`}).join('')}
+      <div class="card-b">${STATUSES.map(x=>{const n=all.filter(t=>t.status===x.id).length;return `<div class="stat-row"><span>${statusBadge(x.id)}</span><div class="track"><span style="width:${n/Math.max(1,all.length)*100}%;background:${x.color}"></span></div><b>${n}</b></div>`}).join('')}
         <div class="types">${Object.entries(TYPES).map(([k,v])=>`<div class="ty" onclick="resetF();${tf}F.type='${k}';F.status='aktif';go('tiket')"><span class="badge ty-${k}">${v.label}</span><span>${act.filter(t=>t.type===k).length} aktif</span></div>`).join('')}</div></div></div>
   </div>
   <div class="g2b">
@@ -682,12 +713,12 @@ function renderBoard(){
   <div class="ph"><div><h1>${F.mine?'Tiket Saya':'Papan Tiket'}</h1><p>Seret kartu ke kolom lain untuk mengubah status.</p></div>
     <div class="acts"><button class="btn" onclick="go('tiket')">${icon('list',15)} Tampilan daftar</button><button class="btn primary" onclick="openCreate()">${icon('plus',15)} Buat Tiket</button></div></div>
   ${filterBar()}
-  <div class="board">${STATUSES.map(s=>{
-    const items=list.filter(t=>t.status===s).sort((a,b)=>s==='Selesai'?b.resolved-a.resolved:sla(a).due-sla(b).due);
-    return `<section class="col" data-status="${s}" ondragover="dOver(event)" ondragleave="dLeave(event)" ondrop="dDrop(event)">
-      <div class="col-h"><span class="sd" style="background:${STC[s]}"></span>${s}<span class="cnt">${items.length}</span>${s==='Terbuka'?`<button class="iconbtn sm" onclick="openCreate()" title="Buat tiket">${icon('plus',15)}</button>`:''}</div>
-      ${s==='Menunggu'?`<div class="col-note">${icon('pause',12)} SLA dijeda selama menunggu</div>`:''}
-      ${s==='Selesai'?`<div class="col-note">${icon('clock',12)} 7 hari terakhir</div>`:''}
+  <div class="board">${STATUSES.map(x=>{
+    const items=list.filter(t=>t.status===x.id).sort((a,b)=>x.cat==='done'?b.resolved-a.resolved:sla(a).due-sla(b).due);
+    return `<section class="col" data-status="${x.id}" ondragover="dOver(event)" ondragleave="dLeave(event)" ondrop="dDrop(event)">
+      <div class="col-h"><span class="sd" style="background:${x.color}"></span>${esc(x.label)}<span class="cnt">${items.length}</span>${x.id===DEFAULT_ST()?`<button class="iconbtn sm" onclick="openCreate()" title="Buat tiket">${icon('plus',15)}</button>`:''}</div>
+      ${x.cat==='paused'?`<div class="col-note">${icon('pause',12)} SLA dijeda di kolom ini</div>`:''}
+      ${x.cat==='done'?`<div class="col-note">${icon('clock',12)} 7 hari terakhir</div>`:''}
       ${items.map(card).join('')||'<div class="col-empty">Tidak ada tiket</div>'}</section>`}).join('')}
   </div>`;
 }
@@ -709,7 +740,7 @@ function dDrop(e){e.preventDefault();e.currentTarget.classList.remove('over');re
 /* ---------- list ---------- */
 const SORT={k:'due',d:1};
 const PI={P1:1,P2:2,P3:3,P4:4};
-const SK={num:t=>t.num,title:t=>t.title.toLowerCase(),team:t=>T(t.team).name,prio:t=>PI[t.prio],status:t=>STATUSES.indexOf(t.status),assignee:t=>t.assignee?U(t.assignee).name:'~',prog:t=>prog(t).pct,due:t=>(t.status==='Selesai'?1e15:0)+sla(t).due,created:t=>t.created};
+const SK={num:t=>t.num,title:t=>t.title.toLowerCase(),team:t=>T(t.team).name,prio:t=>PI[t.prio],status:t=>STATUSES.findIndex(x=>x.id===t.status),assignee:t=>t.assignee?U(t.assignee).name:'~',prog:t=>prog(t).pct,due:t=>(isDone(t)?1e15:0)+sla(t).due,created:t=>t.created};
 function sortBy(k){SORT.d=SORT.k===k?-SORT.d:1;SORT.k=k;render()}
 const listRows=()=>filtered(TK).sort((a,b)=>{const x=SK[SORT.k](a),y=SK[SORT.k](b);return(x>y?1:x<y?-1:0)*SORT.d});
 function renderList(){
@@ -764,11 +795,11 @@ function renderDrawer(){
     <header class="dr-h"><div><div class="dr-top">${typeBadge(t.type)}<span class="num">${t.num}</span>${prioBadge(t.prio)}</div><h2>${esc(t.title)}</h2></div>
       <button class="iconbtn" onclick="closeDrawer()" aria-label="Tutup">${icon('x',19)}</button></header>
     <div class="dr-b">
-      <div class="stepper" role="group" aria-label="Status">${STATUSES.map(x=>`<button class="${t.status===x?'on':''}" onclick="requestStatus('${t.id}','${x}')"><i style="background:${STC[x]}"></i>${x}</button>`).join('')}</div>
+      <div class="stepper" role="group" aria-label="Status">${STATUSES.map(x=>`<button class="${t.status===x.id?'on':''}" onclick="requestStatus('${t.id}','${x.id}')"><i style="background:${x.color}"></i>${esc(x.label)}</button>`).join('')}</div>
       <div class="slabox sla-${s.k}">
         <div class="row"><b>${icon(SLAI[s.k],15)} SLA ${PRIO[t.prio].label} · ${slaTarget(t.prio)}</b><span class="big">${s.label}</span></div>
         <div class="prog"><span style="width:${Math.min(100,Math.max(2,s.pct*100))}%"></span></div>
-        <div class="row small"><span>Dibuat ${fmtD(t.created)} WIB</span><span>${t.status==='Selesai'?'Selesai '+fmtD(t.resolved):'Batas '+fmtD(s.due)} WIB</span></div>
+        <div class="row small"><span>Dibuat ${fmtD(t.created)} WIB</span><span>${isDone(t)?'Selesai '+fmtD(t.resolved):'Batas '+fmtD(s.due)} WIB</span></div>
       </div>
       <div class="fields">
         <div class="field"><label>Jenis</label><select class="input" onchange="editField('${t.id}','type',this.value)">${opt(Object.entries(TYPES).map(([k,v])=>[k,v.label]),t.type)}</select></div>
@@ -784,7 +815,7 @@ function renderDrawer(){
           <li class="addstep"><input class="input" id="newstep" placeholder="Tambah langkah…" onkeydown="if(event.key==='Enter'){event.preventDefault();addStep('${t.id}')}"><button class="btn sm" onclick="addStep('${t.id}')">${icon('plus',13)} Tambah</button></li></ul>
         <p class="hint" style="margin-top:8px">Progres = langkah dicentang ÷ total langkah. Daftar awal diambil dari template jenis ${TYPES[t.type].label}.</p></section>
       <section><h4>Deskripsi</h4><div class="desc">${esc(t.desc)}</div></section>
-      ${t.resolution&&t.status==='Selesai'?`<section><h4>Catatan penyelesaian</h4><div class="desc res">${esc(t.resolution)}</div></section>`:''}
+      ${t.resolution&&isDone(t)?`<section><h4>Catatan penyelesaian</h4><div class="desc res">${esc(t.resolution)}</div></section>`:''}
       <section><h4>Riwayat & catatan pengerjaan</h4>
         <div class="composer">${av(ME,30)}<div><textarea id="note" class="input" rows="3" placeholder="Tulis catatan pengerjaan… (apa yang sudah dicek, hasil, langkah berikutnya)">${esc(note)}</textarea>
           <div class="row"><span class="hint">Catatan tersimpan permanen di riwayat tiket.</span><button class="btn primary sm" onclick="addNote('${t.id}')">Simpan catatan</button></div></div></div>
@@ -802,7 +833,7 @@ function editField(id,k,v){const t=byId(id),old=t[k];v=v||null;if(old===v)return
   if(k==='team'&&t.assignee&&U(t.assignee).team!==v){t.events.push({at:Date.now(),by:ME,kind:'field',field:'assignee',from:t.assignee,to:null});t.assignee=null}
   touch(t);render();toast(k==='prio'?`Prioritas diubah, batas SLA dihitung ulang`:'Perubahan disimpan')}
 function stepById(t,sid){return t.steps.find(x=>x.id===sid)}
-function toggleStep(tid,sid){const t=byId(tid),x=stepById(t,sid),now=Date.now();x.done=!x.done;x.by=x.done?ME:null;x.at=x.done?now:null;t.events.push({at:now,by:ME,kind:'step',done:x.done,step:x.text});touch(t);render();const p=prog(t);if(x.done&&p.d===p.n&&t.status!=='Selesai')toast('Semua langkah selesai. Tiket siap ditutup.')}
+function toggleStep(tid,sid){const t=byId(tid),x=stepById(t,sid),now=Date.now();x.done=!x.done;x.by=x.done?ME:null;x.at=x.done?now:null;t.events.push({at:now,by:ME,kind:'step',done:x.done,step:x.text});touch(t);render();const p=prog(t);if(x.done&&p.d===p.n&&!isDone(t))toast('Semua langkah selesai. Tiket siap ditutup.')}
 function addStep(tid){const el=$('#newstep'),v=el.value.trim();if(!v){el.focus();return}const t=byId(tid);t.steps.push({id:'s'+Date.now(),text:v,done:false,by:null,at:null});t.events.push({at:Date.now(),by:ME,kind:'stepadd',step:v});touch(t);render();$('#newstep')?.focus()}
 function delStep(tid,sid){const t=byId(tid),i=t.steps.findIndex(x=>x.id===sid),[x]=t.steps.splice(i,1);t.events.push({at:Date.now(),by:ME,kind:'stepdel',step:x.text});touch(t);render();toast('Langkah dihapus')}
 function renameStep(tid,sid,v){v=v.trim();const t=byId(tid),x=stepById(t,sid);if(!v||v===x.text){render();return}t.events.push({at:Date.now(),by:ME,kind:'stepren',step:x.text,to:v});x.text=v;touch(t);render()}
@@ -812,11 +843,11 @@ function addNote(id){const el=$('#note'),v=el.value.trim();if(!v){el.focus();ret
 function requestStatus(id,to){
   const t=byId(id);if(!t||t.status===to)return;
   let n=null;
-  if(to==='Menunggu')n={title:'Pindahkan ke Menunggu',label:'Alasan menunggu',hint:'SLA dijeda selama tiket berstatus Menunggu.',quick:WAIT_REASONS};
-  else if(to==='Selesai')n={title:'Selesaikan tiket',label:'Catatan penyelesaian',hint:'Jelaskan penyebab dan apa yang dilakukan, supaya bisa dipakai lagi untuk kasus serupa.',quick:[]};
-  else if(t.status==='Selesai')n={title:'Buka kembali tiket',label:'Alasan dibuka kembali',hint:'Hanya Lead Tim dan Admin yang bisa membuka kembali tiket.',quick:['Masalah muncul lagi','User belum konfirmasi selesai']};
-  if(!n){setStatus(t,to);render();toast(`${t.num} dipindahkan ke ${to}`);return}
-  const left=to==='Selesai'?t.steps.filter(x=>!x.done).length:0;
+  if(CAT(to)==='paused')n={title:`Pindahkan ke ${esc(ST(to).label)}`,label:'Alasan menunggu',hint:`SLA dijeda selama tiket berstatus ${esc(ST(to).label)}.`,quick:WAIT_REASONS};
+  else if(CAT(to)==='done')n={title:`Selesaikan tiket (${esc(ST(to).label)})`,label:'Catatan penyelesaian',hint:'Jelaskan penyebab dan apa yang dilakukan, supaya bisa dipakai lagi untuk kasus serupa.',quick:[]};
+  else if(isDone(t))n={title:'Buka kembali tiket',label:'Alasan dibuka kembali',hint:'Hanya Lead Tim dan Admin yang bisa membuka kembali tiket.',quick:['Masalah muncul lagi','User belum konfirmasi selesai']};
+  if(!n){setStatus(t,to);render();toast(`${t.num} dipindahkan ke ${ST(to).label}`);return}
+  const left=CAT(to)==='done'?t.steps.filter(x=>!x.done).length:0;
   modal(`<form class="mform" onsubmit="event.preventDefault();confirmStatus('${t.id}','${to}',this.text.value,this.all&&this.all.checked)">
     <header class="m-h"><div><h2>${n.title}</h2><p class="muted">${t.num} · ${esc(t.title)}</p></div><button type="button" class="iconbtn" onclick="closeModal()" aria-label="Tutup">${icon('x',18)}</button></header>
     <div class="m-b">
@@ -824,18 +855,18 @@ function requestStatus(id,to){
       ${left?`<div class="warnbox">${icon('alert',16)}<div><b>${left} dari ${t.steps.length} langkah belum dicentang.</b> Pastikan semua langkah memang sudah dikerjakan.<label><input type="checkbox" name="all" checked> Tandai ${left} langkah tersisa sebagai selesai</label></div></div>`:''}
       <label class="fl">${n.label} <textarea class="input" name="text" rows="4" required></textarea></label>
       ${n.quick.length?`<div class="quick">${n.quick.map(q=>`<button type="button" class="chip sm" onclick="this.form.text.value='${q}'">${q}</button>`).join('')}</div>`:''}
-      <p class="hint">${icon(to==='Menunggu'?'pause':'clock',13)} ${n.hint}</p>
+      <p class="hint">${icon(CAT(to)==='paused'?'pause':'clock',13)} ${n.hint}</p>
     </div>
     <footer class="m-f"><button type="button" class="btn" onclick="closeModal()">Batal</button><button class="btn primary">Simpan status</button></footer></form>`,'sm');
 }
-function confirmStatus(id,to,text,all){const t=byId(id);if(all){const now=Date.now();t.steps.filter(x=>!x.done).forEach(x=>{x.done=true;x.by=ME;x.at=now;t.events.push({at:now,by:ME,kind:'step',done:true,step:x.text})})}setStatus(t,to,text.trim());closeModal();render();toast(`${t.num} dipindahkan ke ${to}`)}
+function confirmStatus(id,to,text,all){const t=byId(id);if(all){const now=Date.now();t.steps.filter(x=>!x.done).forEach(x=>{x.done=true;x.by=ME;x.at=now;t.events.push({at:now,by:ME,kind:'step',done:true,step:x.text})})}setStatus(t,to,text.trim());closeModal();render();toast(`${t.num} dipindahkan ke ${ST(to).label}`)}
 function setStatus(t,to,text){
   const from=t.status,now=Date.now();
-  if(from==='Menunggu'&&t.pausedAt){t.pausedMs+=now-t.pausedAt;t.pausedAt=null}
-  if(to==='Menunggu')t.pausedAt=now;
-  if(!t.assignee&&to!=='Terbuka'){t.assignee=ME;t.events.push({at:now,by:ME,kind:'assigned',to:ME})}
-  if(to==='Selesai'){t.resolved=now;t.resolution=text}
-  if(from==='Selesai'){t.resolved=null}
+  if(CAT(from)==='paused'&&t.pausedAt){t.pausedMs+=now-t.pausedAt;t.pausedAt=null}
+  if(CAT(to)==='paused')t.pausedAt=now;
+  if(!t.assignee&&CAT(to)!=='open'){t.assignee=ME;t.events.push({at:now,by:ME,kind:'assigned',to:ME})}
+  if(CAT(to)==='done'){t.resolved=now;t.resolution=text}
+  if(CAT(from)==='done'&&CAT(to)!=='done'){t.resolved=null}
   t.status=to;t.events.push({at:now,by:ME,kind:'status',from,to,text:text||''});touch(t);
 }
 
@@ -865,7 +896,7 @@ function fillAssignee(){const f=$('#cf');f.assignee.innerHTML=`<option value="">
 function updPrev(){const f=$('#cf'),p=f.prio.value;$('#thint').textContent=`${TYPES[f.type.value].hint} · ${STEPS[f.type.value].length} langkah pengerjaan dibuat otomatis.`;
   $('#slaprev').innerHTML=`${icon('clock',18)}<div>Batas SLA otomatis: <b>${fmtL(Date.now()+hrs(p)*H)} WIB</b><div class="small muted">Prioritas ${PRIO[p].label} · target penyelesaian ${slaTarget(p)}</div></div>`}
 function submitCreate(e){e.preventDefault();const f=e.target,now=Date.now(),type=f.type.value;
-  const t={id:'n'+now,num:`${type}-${String(++COUNTER[type]).padStart(6,'0')}`,type,title:f.title.value.trim(),team:f.team.value,prio:f.prio.value,status:'Terbuka',assignee:f.assignee.value||null,reporter:ME,desc:f.desc.value.trim(),created:now,updated:now,pausedMs:0,pausedAt:null,resolved:null,resolution:null,steps:STEPS[type].map((text,j)=>({id:'s'+now+'_'+j,text,done:false,by:null,at:null})),events:[{at:now,by:ME,kind:'created'}]};
+  const t={id:'n'+now,num:`${type}-${String(++COUNTER[type]).padStart(6,'0')}`,type,title:f.title.value.trim(),team:f.team.value,prio:f.prio.value,status:DEFAULT_ST(),assignee:f.assignee.value||null,reporter:ME,desc:f.desc.value.trim(),created:now,updated:now,pausedMs:0,pausedAt:null,resolved:null,resolution:null,steps:STEPS[type].map((text,j)=>({id:'s'+now+'_'+j,text,done:false,by:null,at:null})),events:[{at:now,by:ME,kind:'created'}]};
   if(t.assignee)t.events.push({at:now,by:ME,kind:'assigned',to:t.assignee});
   TK.unshift(t);closeModal();render();openDetail(t.id);toast(`Tiket ${t.num} dibuat`)}
 
@@ -882,7 +913,7 @@ function renderAdmin(){
       <div class="m-f" style="border-radius:0 0 10px 10px"><button class="btn" onclick="render()">Batal</button><button class="btn primary" onclick="saveSla()">Simpan kebijakan</button></div></div>
     <div style="display:flex;flex-direction:column;gap:16px">
       <div class="card"><div class="card-h"><h3>Aturan SLA</h3></div><div class="card-b rules">
-        <div class="rl"><div>Jeda SLA saat status Menunggu<small>Waktu menunggu tidak dihitung ke SLA</small></div><label class="switch"><input type="checkbox" checked></label></div>
+        <div class="rl"><div>Jeda SLA di status kategori Menunggu<small>Waktu menunggu tidak dihitung ke SLA</small></div><label class="switch"><input type="checkbox" checked></label></div>
         <div class="rl"><div>Peringatan "Hampir lewat"<small>Saat waktu SLA terpakai mencapai</small></div><select class="input" style="width:90px"><option>75%</option><option>50%</option><option>90%</option></select></div>
         <div class="rl"><div>Jam kerja<small>Dipakai untuk prioritas Sedang & Rendah</small></div><b style="font-size:13px">Sen–Jum, 08.00–17.00 WIB</b></div>
       </div></div>
@@ -892,16 +923,60 @@ function renderAdmin(){
         <div class="hol"><span>Jumat, 1 Jan 2027</span><span class="muted">Tahun Baru Masehi</span></div>
         <p class="hint" style="margin-top:8px">Contoh data. Daftar lengkap mengikuti SKB libur nasional dan cuti bersama.</p></div></div>
     </div></div>`;
-  else if(ADM==='tim')body=`<div class="teams">${TEAMS.map(tm=>{const m=members(tm.id),a=TK.filter(t=>t.team===tm.id&&t.status!=='Selesai');const lead=m.find(u=>u.role==='Lead Tim');return `<div class="card team-c"><div class="code">${tm.id}</div><h3>${esc(tm.name)}</h3><div class="small muted" style="margin-top:4px">Lead: ${lead?esc(lead.name):'—'}</div><div class="avs">${m.map(u=>av(u.id,30)).join('')}</div><div class="ft"><span><b>${m.length}</b> anggota</span><span><b>${a.length}</b> tiket aktif</span><button class="btn ghost sm" onclick="toast('Mockup: form edit tim')">Kelola</button></div></div>`}).join('')}
+  else if(ADM==='tim')body=`<div class="teams">${TEAMS.map(tm=>{const m=members(tm.id),a=TK.filter(t=>t.team===tm.id&&!isDone(t));const lead=m.find(u=>u.role==='Lead Tim');return `<div class="card team-c"><div class="code">${tm.id}</div><h3>${esc(tm.name)}</h3><div class="small muted" style="margin-top:4px">Lead: ${lead?esc(lead.name):'—'}</div><div class="avs">${m.map(u=>av(u.id,30)).join('')}</div><div class="ft"><span><b>${m.length}</b> anggota</span><span><b>${a.length}</b> tiket aktif</span><button class="btn ghost sm" onclick="toast('Mockup: form edit tim')">Kelola</button></div></div>`}).join('')}
     <button class="card team-c" style="border-style:dashed;display:grid;place-items:center;color:var(--muted);cursor:pointer;min-height:170px;font-weight:600" onclick="toast('Mockup: form tambah tim')">${icon('plus',20)}<span>Tambah tim</span></button></div>`;
+  else if(ADM==='status'){const D=sdraft(),cnt=id=>TK.filter(t=>t.status===id).length,def=(D.find(x=>x.cat==='open')||{}).id;
+    body=`<p class="muted" style="margin:-4px 0 14px;font-size:12.5px">Status menjadi kolom di Papan Tiket, berurutan dari atas ke bawah. Aturan SLA mengikuti <b>kategori</b>, bukan nama status, jadi Anda bebas menambah atau mengganti nama status.</p>
+    ${SERR?`<div class="errbox">${esc(SERR)}</div>`:''}
+    <div class="flow">${D.map((x,i)=>`${i?icon('arrow',13):''}<span class="badge st"><i style="background:${x.color}"></i>${esc(x.label)}</span>`).join('')}</div>
+    <div class="card tablewrap"><table class="st-tbl"><thead><tr><th style="width:1%">Urutan</th><th style="width:1%">Warna</th><th>Nama status</th><th>Kategori</th><th>Tiket</th><th style="width:1%"></th></tr></thead><tbody>
+    ${D.map((x,i)=>`<tr><td><div class="ord"><button class="iconbtn" ${i?'':'disabled'} onclick="moveS(${i},-1)" aria-label="Naikkan">${icon('up',14)}</button><button class="iconbtn" ${i<D.length-1?'':'disabled'} onclick="moveS(${i},1)" aria-label="Turunkan">${icon('down',14)}</button></div></td>
+      <td><input type="color" value="${x.color}" onchange="SDRAFT[${i}].color=this.value;render()" aria-label="Warna"></td>
+      <td><input class="input" value="${esc(x.label)}" onchange="SDRAFT[${i}].label=this.value;render()" aria-label="Nama status" style="max-width:260px">${x.id===def?' <span class="badge sla-ok" style="margin-left:6px">Status awal</span>':''}</td>
+      <td><select class="input" style="max-width:220px" onchange="SDRAFT[${i}].cat=this.value;render()" aria-label="Kategori">${Object.entries(CATS).map(([k,v])=>`<option value="${k}" ${x.cat===k?'selected':''}>${v.label}</option>`).join('')}</select></td>
+      <td class="cnt">${x.isNew?'<span class="muted">baru</span>':cnt(x.id)}</td>
+      <td><button class="iconbtn" onclick="delS(${i})" title="Hapus status" aria-label="Hapus status">${icon('x',16)}</button></td></tr>`).join('')}
+    </tbody></table>
+    <div class="m-f" style="justify-content:space-between;border-radius:0 0 10px 10px"><button class="btn" onclick="addS()">${icon('plus',14)} Tambah status</button><span class="acts"><button class="btn" onclick="cancelS()">Batal</button><button class="btn primary" onclick="saveS()">Simpan status</button></span></div></div>
+    <div class="cats">${Object.entries(CATS).map(([k,v])=>`<div class="card c"><b>${v.label}</b><span>${v.desc}</span></div>`).join('')}</div>`}
   else if(ADM==='langkah')body=`<p class="hint" style="margin:-4px 0 14px">Daftar langkah awal untuk setiap tiket baru, per jenis. Satu langkah per baris. Engineer tetap bisa menambah, mengubah, atau menghapus langkah di masing-masing tiket.</p>
     <div class="tpls">${Object.entries(TYPES).map(([k,v])=>`<div class="card"><div class="card-h"><span class="badge ty-${k}">${v.label}</span><span class="sub">${STEPS[k].length} langkah</span></div><div class="card-b"><textarea class="input" id="tp-${k}" rows="6" aria-label="Langkah untuk ${v.label}">${esc(STEPS[k].join('\n'))}</textarea></div></div>`).join('')}</div>
     <div style="display:flex;justify-content:flex-end;gap:8px;margin-top:14px"><button class="btn" onclick="render()">Batal</button><button class="btn primary" onclick="saveTpl()">Simpan template</button></div>`;
   else body=`<div class="card tablewrap"><table class="tbl" style="min-width:720px"><thead><tr><th>Nama</th><th>Email</th><th>Peran</th><th>Tim</th><th>Tiket aktif</th><th>Status</th></tr></thead><tbody>
-    ${USERS.map(u=>`<tr onclick="toast('Mockup: form edit pengguna')"><td>${who(u.id,28)}</td><td class="muted">${u.name.toLowerCase().replace(/ /g,'.')}@contoh.co.id</td><td><span class="badge ${u.role==='Admin'?'pr-P1':u.role==='Lead Tim'?'ty-CHG':'st'}">${u.role}</span></td><td>${u.team?esc(T(u.team).name):'—'}</td><td>${TK.filter(t=>t.assignee===u.id&&t.status!=='Selesai').length}</td><td><span class="badge sla-ok">Aktif</span></td></tr>`).join('')}</tbody></table></div>`;
-  $('#view').innerHTML=`<div class="ph"><div><h1>Admin</h1><p>Pengaturan SLA, template langkah, tim, dan pengguna.</p></div>${ADM==='pengguna'?`<div class="acts"><button class="btn primary" onclick="toast('Mockup: form tambah pengguna')">${icon('plus',15)} Tambah pengguna</button></div>`:''}</div>
-    <div class="tabs">${tab('sla','Kebijakan SLA')}${tab('langkah','Template langkah')}${tab('tim','Tim')}${tab('pengguna','Pengguna')}</div>${body}`;
+    ${USERS.map(u=>`<tr onclick="toast('Mockup: form edit pengguna')"><td>${who(u.id,28)}</td><td class="muted">${u.name.toLowerCase().replace(/ /g,'.')}@contoh.co.id</td><td><span class="badge ${u.role==='Admin'?'pr-P1':u.role==='Lead Tim'?'ty-CHG':'st'}">${u.role}</span></td><td>${u.team?esc(T(u.team).name):'—'}</td><td>${TK.filter(t=>t.assignee===u.id&&!isDone(t)).length}</td><td><span class="badge sla-ok">Aktif</span></td></tr>`).join('')}</tbody></table></div>`;
+  $('#view').innerHTML=`<div class="ph"><div><h1>Admin</h1><p>Pengaturan SLA, status, template langkah, tim, dan pengguna.</p></div>${ADM==='pengguna'?`<div class="acts"><button class="btn primary" onclick="toast('Mockup: form tambah pengguna')">${icon('plus',15)} Tambah pengguna</button></div>`:''}</div>
+    <div class="tabs">${tab('sla','Kebijakan SLA')}${tab('status','Status & alur')}${tab('langkah','Template langkah')}${tab('tim','Tim')}${tab('pengguna','Pengguna')}</div>${body}`;
 }
+let SDRAFT=null,SMOVES={},SERR='';
+function sdraft(){if(!SDRAFT)SDRAFT=STATUSES.map(x=>({...x}));return SDRAFT}
+function moveS(i,d){const D=sdraft();[D[i],D[i+d]]=[D[i+d],D[i]];render()}
+function addS(){sdraft().push({id:'st'+Date.now(),label:'Status baru',color:'#8B5CF6',cat:'active',isNew:true});render();const ins=document.querySelectorAll('.st-tbl input.input');ins[ins.length-1]?.select()}
+function delS(i){const D=sdraft(),x=D[i],n=x.isNew?0:TK.filter(t=>t.status===x.id).length;
+  if(!n){D.splice(i,1);render();return}
+  const others=D.filter((y,j)=>j!==i);
+  modal(`<form class="mform" onsubmit="event.preventDefault();confirmDelS(${i},this.to.value)"><header class="m-h"><div><h2>Hapus status “${esc(x.label)}”</h2><p class="muted">Masih ada ${n} tiket di status ini.</p></div><button type="button" class="iconbtn" onclick="closeModal()" aria-label="Tutup">${icon('x',18)}</button></header>
+    <div class="m-b"><label class="fl">Pindahkan ${n} tiket ke<select class="input" name="to">${others.map(y=>`<option value="${y.id}" ${y.cat===x.cat?'selected':''}>${esc(y.label)} (${CATS[y.cat].label})</option>`).join('')}</select></label>
+    <p class="hint">${icon('alert',13)} Perpindahan dicatat di riwayat setiap tiket saat Anda menekan Simpan status.</p></div>
+    <footer class="m-f"><button type="button" class="btn" onclick="closeModal()">Batal</button><button class="btn primary">Hapus & pindahkan</button></footer></form>`,'sm')}
+function confirmDelS(i,to){const D=sdraft(),[x]=D.splice(i,1);SMOVES[x.id]=to;Object.keys(SMOVES).forEach(k=>{if(SMOVES[k]===x.id)SMOVES[k]=to});closeModal();render()}
+function cancelS(){SDRAFT=null;SMOVES={};SERR='';render()}
+function saveS(){const D=sdraft();
+  const names=D.map(x=>x.label.trim().toLowerCase());
+  SERR=!D.length?'Minimal harus ada satu status.':D.some(x=>!x.label.trim())?'Nama status tidak boleh kosong.':names.some((n,i)=>names.indexOf(n)!==i)?'Nama status tidak boleh sama.':!D.some(x=>x.cat==='open')?'Harus ada minimal satu status berkategori "Belum dikerjakan" untuk tiket baru.':!D.some(x=>x.cat==='done')?'Harus ada minimal satu status berkategori "Selesai".':'';
+  if(SERR){render();return}
+  const now=Date.now();
+  STATUSES.filter(x=>!D.some(y=>y.id===x.id)).forEach(x=>ARCHIVED_ST.push({...x}));
+  D.forEach(x=>{x.label=x.label.trim();const a=ARCHIVED_ST.findIndex(y=>y.id===x.id);if(a>=0)ARCHIVED_ST.splice(a,1)});
+  const oldCat={};TK.forEach(t=>oldCat[t.id]=cat(t));
+  const moved=[];TK.forEach(t=>{if(SMOVES[t.status]){const from=t.status;t.status=SMOVES[from];moved.push([t,from])}});
+  STATUSES.splice(0,STATUSES.length,...D.map(({isNew,...x})=>x));
+  TK.forEach(t=>{const was=oldCat[t.id],c=cat(t);                    // keep SLA data consistent when a ticket's category changes
+    if(was==='paused'&&c!=='paused'&&t.pausedAt){t.pausedMs+=now-t.pausedAt;t.pausedAt=null}
+    if(c==='paused'&&!t.pausedAt)t.pausedAt=now;
+    if(c==='done'&&!t.resolved)t.resolved=now;
+    if(c!=='done'&&was==='done')t.resolved=null});
+  moved.forEach(([t,from])=>{t.events.push({at:now,by:'u0',kind:'status',from,to:t.status,text:'Status lama dihapus oleh Admin.'});touch(t)});
+  SDRAFT=null;SMOVES={};render();toast(`Status disimpan${moved.length?` · ${moved.length} tiket dipindahkan`:''}`)}
 function saveTpl(){Object.keys(TYPES).forEach(k=>{const v=$('#tp-'+k).value.split('\n').map(x=>x.trim()).filter(Boolean);if(v.length)STEPS[k]=v});render();toast('Template langkah disimpan. Berlaku untuk tiket baru.')}
 function saveSla(){Object.keys(PRIO).forEach(k=>{const v=+$('#sv-'+k).value;if(v>0)PRIO[k].val=v;PRIO[k].unit=$('#su-'+k).value});render();toast('Kebijakan SLA disimpan')}
 
@@ -910,7 +985,7 @@ function modal(html,size=''){$('#modal-root').innerHTML=`<div class="overlay m" 
 function closeModal(){$('#modal-root').innerHTML=''}
 function toast(msg){const el=document.createElement('div');el.className='toast';el.innerHTML=`${icon('check',15,2.6)}<span>${esc(msg)}</span>`;$('#toast-root').appendChild(el);setTimeout(()=>el.classList.add('out'),2600);setTimeout(()=>el.remove(),3000)}
 function togglePop(e){e.stopPropagation();const r=$('#pop-root');if(r.innerHTML){r.innerHTML='';return}
-  const mine=TK.filter(t=>t.team===U(ME).team&&t.status!=='Selesai'&&(sla(t).breached||sla(t).risk)).sort((a,b)=>sla(a).due-sla(b).due).slice(0,5);
+  const mine=TK.filter(t=>t.team===U(ME).team&&!isDone(t)&&(sla(t).breached||sla(t).risk)).sort((a,b)=>sla(a).due-sla(b).due).slice(0,5);
   r.innerHTML=`<div class="pop" onclick="event.stopPropagation()"><h4>Notifikasi · Tim ${T(U(ME).team).name}</h4>${mine.map(t=>{const s=sla(t);return `<div class="it" onclick="$('#pop-root').innerHTML='';openDetail('${t.id}')"><span class="ic sla-${s.k}">${icon(SLAI[s.k],14)}</span><div><b>${t.num}</b> ${s.breached?'sudah lewat SLA':'hampir lewat SLA'}<div class="muted">${esc(t.title)}</div></div></div>`}).join('')||'<div class="it muted">Tidak ada notifikasi.</div>'}</div>`}
 document.addEventListener('click',()=>{$('#pop-root').innerHTML=''});
 

@@ -47,26 +47,33 @@ A user belongs to one or more teams. Permissions are enforced on the server; the
 | **Tim** (team) | Required; the team responsible |
 | **Prioritas** (priority) | `Kritis` (P1) · `Tinggi` (P2) · `Sedang` (P3) · `Rendah` (P4) |
 | **Deskripsi** (description) | Markdown |
-| **Penanggung jawab** (assignee) | One user from the ticket's team; may be empty while the status is Terbuka |
+| **Penanggung jawab** (assignee) | One user from the ticket's team; may be empty while the ticket is in a *Belum dikerjakan* status |
 | **Pelapor** (reporter) | The user who opened it (automatic) |
-| **Status** | `Terbuka` (Open) → `Dikerjakan` (In Progress) ⇄ `Menunggu` (Waiting) → `Selesai` (Done) |
+| **Status** | One of the **admin-defined statuses** (see below). Defaults from the brief: `Terbuka` → `Dikerjakan` ⇄ `Menunggu` → `Selesai` |
 | **Batas SLA** (SLA deadline) | **Calculated automatically** from priority when the ticket is created; recalculated if priority changes |
 | **Langkah pengerjaan** (work steps) | A checklist copied from the ticket type's template when the ticket is created; engineers can tick, add, rename or delete steps. **Progress = ticked steps ÷ total steps** |
 | **Riwayat** (history) | Work notes plus every field and status change, with who made it and when |
 
-### Status flow
+### Statuses (admin-defined)
 
-```
-Terbuka ──► Dikerjakan ──► Selesai
-               ▲   │          │
-               │   ▼          │ (reopen, Lead/Admin only,
-             Menunggu         │  reason required)
-               ▲──────────────┘
-```
+Admins manage the list of statuses in **Admin → Status & alur**: add, rename, recolor, reorder and delete. The order is the column order on the board. Each status belongs to one of four fixed **categories**, and all rules hang off the category, never off the status name:
 
-- Moving to **Menunggu** requires a reason (e.g. waiting on the customer, vendor or a change window).
-- Moving to **Selesai** requires a resolution note. If steps are still unticked, the dialog warns and offers to tick them.
-- Reopening moves the ticket back to Dikerjakan and is recorded in the history.
+| Category | SLA | Required on entry | Notes |
+|---|---|---|---|
+| **Belum dikerjakan** (open) | Running | — | The first status in this category is where new tickets start |
+| **Sedang dikerjakan** (active) | Running | — | |
+| **Menunggu** (paused) | Paused | Reason | |
+| **Selesai** (done) | Stopped | Resolution note | Counts as closed in the dashboard and "selesai tepat waktu" |
+
+Defaults (from the client brief): `Terbuka` (open) → `Dikerjakan` (active) ⇄ `Menunggu` (paused) → `Selesai` (done). Example additions: `Verifikasi User` (paused), `Eskalasi Vendor` (paused), `Review` (active).
+
+Rules:
+- There must always be at least one *Belum dikerjakan* status and one *Selesai* status; names must be unique.
+- Deleting a status that still has tickets requires choosing a status to move them to; each move is written to the ticket history.
+- Changing a status's category updates the SLA data of tickets already in it (pause starts/ends, resolved time set/cleared).
+- Any status can move to any other status (no transition rules in v1).
+- Moving into a *Selesai* status with unticked steps warns and offers to tick them.
+- Moving out of a *Selesai* status (reopening) is Lead/Admin only and requires a reason.
 
 ### SLA rules (proposed defaults; admin can edit them)
 
@@ -78,7 +85,7 @@ Terbuka ──► Dikerjakan ──► Selesai
 | Rendah (P4) | 5 business days | Minor or cosmetic |
 
 - Times are in **WIB (Asia/Jakarta)**.
-- The SLA clock **pauses while the ticket is in Menunggu**, and the deadline moves forward by the paused time. *(Needs client confirmation.)*
+- The SLA clock **pauses while the ticket is in any *Menunggu*-category status**, and the deadline moves forward by the paused time. *(Needs client confirmation.)*
 - SLA states shown everywhere: **Aman** (on track), **Hampir lewat** (≥ 75% of the time used), **Lewat SLA** (breached).
 - SLA rules are stored in a table, not hard-coded, so the client can tune them without code changes.
 
@@ -95,7 +102,7 @@ All UI text is in **Bahasa Indonesia**. Branding comes from the client logo (`as
    - Workload per engineer within a team (for leads)
    - Lists: tickets about to breach, recently opened
    - Filters: team, type, priority, status, assignee, date range, plus search
-3. **Papan** (board, kanban): 4 fixed columns (Terbuka / Dikerjakan / Menunggu / Selesai). Drag a card to change its status; the dialog asks for a reason or resolution note when needed. Cards show the number, title, type, priority, assignee and an SLA countdown. Can be filtered per team, or "Tiket saya" (my tickets).
+3. **Papan** (board, kanban): one column per admin-defined status, in the admin's order (scrolls sideways when there are many). Drag a card to change its status; the dialog asks for a reason or resolution note when needed. Cards show the number, title, type, priority, assignee and an SLA countdown. Can be filtered per team, or "Tiket saya" (my tickets).
 4. **Daftar tiket** (ticket list): a sortable table with the same filters and search, plus CSV export.
 5. **Buat tiket** (new ticket form).
 6. **Detail tiket**: fields, SLA bar, and a timeline of work notes and changes, with a box to add a work note.
@@ -137,9 +144,10 @@ holidays (for business-day SLA)
 ```
 
 - **users** — id, name, email (unique), password_hash, role (`admin` | `lead` | `engineer` | `viewer`), active, created_at
+- **statuses** — id, label, color, category (`open` | `active` | `paused` | `done`), position, archived_at? (archived instead of hard-deleted, so old history still shows the name)
 - **teams** — id, name, code, active
 - **team_members** — team_id, user_id, is_lead
-- **tickets** — id, number (`INC-000123`), type, title, description, team_id, priority, status, assignee_id?, reporter_id, sla_due_at, sla_paused_at?, sla_paused_total_minutes, first_response_at?, resolved_at?, resolution_note?, created_at, updated_at, search_vector (tsvector)
+- **tickets** — id, number (`INC-000123`), type, title, description, team_id, priority, status_id → statuses, assignee_id?, reporter_id, sla_due_at, sla_paused_at?, sla_paused_total_minutes, first_response_at?, resolved_at?, resolution_note?, created_at, updated_at, search_vector (tsvector)
 - **ticket_steps** — id, ticket_id, position, text, done, done_by?, done_at?
 - **step_templates** — type, position, text (default steps per ticket type, editable by Admin)
 - **ticket_events** — id, ticket_id, actor_id, kind (`created` | `note` | `step_done` | `step_undone` | `step_added` | `step_removed` | `step_renamed` | `status_changed` | `assigned` | `priority_changed` | `team_changed` | `field_changed`), body (for notes/reasons), payload jsonb (`{from, to}`), created_at
@@ -147,7 +155,7 @@ holidays (for business-day SLA)
 - **holidays** — date, name (Indonesian public holidays and cuti bersama)
 - **ticket_counters** — type, next_number (incremented inside a transaction so numbers never repeat)
 
-Key indexes: `(status, team_id)`, `(assignee_id, status)`, `(sla_due_at) WHERE status <> 'Selesai'`, plus a GIN index on `search_vector`.
+Key indexes: `(status_id, team_id)`, `(assignee_id, status_id)`, `(sla_due_at) WHERE resolved_at IS NULL`, plus a GIN index on `search_vector`.
 
 Every change to a ticket writes a `ticket_events` row in **the same database transaction**, so the history is always complete.
 
@@ -162,7 +170,7 @@ GET    /tickets?q=&team=&type=&priority=&status=&assignee=&sla=breached|at_risk&
 POST   /tickets
 GET    /tickets/:id                    # including events
 PATCH  /tickets/:id                    # title, description, type, team, priority, assignee
-POST   /tickets/:id/status             # { status, reason? | resolution? }
+POST   /tickets/:id/status             # { statusId, reason? | resolution? }  (rules from the status category)
 POST   /tickets/:id/notes              # { body }
 GET    /tickets/export.csv?…same filters
 
@@ -170,6 +178,7 @@ GET    /dashboard/summary?team=&from=&to=   # KPI tiles
 GET    /dashboard/workload?…                # per team / per engineer
 
 GET|POST|PATCH  /admin/users, /admin/teams, /admin/teams/:id/members
+GET|PUT         /admin/statuses           # whole ordered list; body may include { moves: {deletedId: targetId} }
 GET|PUT         /admin/sla-policies
 GET|POST|DELETE /admin/holidays
 ```
@@ -201,8 +210,8 @@ GET|POST|DELETE /admin/holidays
 | **M0** | Scaffold | Monorepo, Docker Compose with Postgres, Prisma schema, lint + CI, Info Data theme and layout |
 | **M1** | Auth & admin | Login, roles, user and team management, seed data |
 | **M2** | Tickets core | Create, list, detail and edit tickets; numbering; work notes; history timeline |
-| **M3** | Status & SLA | Status flow with reasons; SLA calculation (business hours, holidays, pause in Menunggu) with full unit tests; SLA badges |
-| **M4** | Board | Kanban with 4 status columns, drag-to-change-status, team and "my tickets" filters |
+| **M3** | Status & SLA | Status flow with reasons; SLA calculation (business hours, holidays, pause in Menunggu-category statuses); admin-defined statuses with categories with full unit tests; SLA badges |
+| **M4** | Board | Kanban with one column per admin-defined status, drag-to-change-status, team and "my tickets" filters |
 | **M5** | Dashboard | KPI tiles, workload charts, at-risk list, filters, search, CSV export |
 | **M6** | Hardening & handover | E2E tests, backups, deploy to the client server, short user guide in Indonesian, UAT with the client |
 
@@ -214,7 +223,7 @@ Each milestone ends with something we can demo to the client.
 
 1. **SLA numbers:** are the proposed targets (4 h / 8 h / 3 business days / 5 business days) right? Is SLA measured on **resolution only**, or also on **first response**?
 2. **Business hours:** do P3/P4 count only working hours (e.g. Mon–Fri 08:00–17:00 WIB)? Do P1/P2 run 24/7?
-3. **Menunggu:** does the SLA clock pause while a ticket is waiting?
+3. **Menunggu:** does the SLA clock pause while a ticket is waiting? And which extra statuses do teams want on top of the four in the brief?
 4. **Teams:** what are the team names, and who leads each one?
 5. **Login:** does the company use Microsoft 365 or Google Workspace (for SSO), or is email/password fine?
 6. **Hosting:** on the company's own server, or a cloud VPS (which provider/region)?

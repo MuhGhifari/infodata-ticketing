@@ -51,6 +51,7 @@ A user belongs to one or more teams. Permissions are enforced on the server; the
 | **Pelapor** (reporter) | The user who opened it (automatic) |
 | **Status** | `Terbuka` (Open) → `Dikerjakan` (In Progress) ⇄ `Menunggu` (Waiting) → `Selesai` (Done) |
 | **Batas SLA** (SLA deadline) | **Calculated automatically** from priority when the ticket is created; recalculated if priority changes |
+| **Langkah pengerjaan** (work steps) | A checklist copied from the ticket type's template when the ticket is created; engineers can tick, add, rename or delete steps. **Progress = ticked steps ÷ total steps** |
 | **Riwayat** (history) | Work notes plus every field and status change, with who made it and when |
 
 ### Status flow
@@ -64,7 +65,7 @@ Terbuka ──► Dikerjakan ──► Selesai
 ```
 
 - Moving to **Menunggu** requires a reason (e.g. waiting on the customer, vendor or a change window).
-- Moving to **Selesai** requires a resolution note.
+- Moving to **Selesai** requires a resolution note. If steps are still unticked, the dialog warns and offers to tick them.
 - Reopening moves the ticket back to Dikerjakan and is recorded in the history.
 
 ### SLA rules (proposed defaults; admin can edit them)
@@ -98,7 +99,9 @@ All UI text is in **Bahasa Indonesia**. Branding comes from the client logo (`as
 4. **Daftar tiket** (ticket list): a sortable table with the same filters and search, plus CSV export.
 5. **Buat tiket** (new ticket form).
 6. **Detail tiket**: fields, SLA bar, and a timeline of work notes and changes, with a box to add a work note.
-7. **Admin**: users and roles, teams and members, SLA policy.
+7. **Admin**: users and roles, teams and members, SLA policy, default work-step templates per ticket type.
+
+**Progress vs SLA:** cards, the list and the ticket detail show two separate bars. The SLA bar (red/amber/green) shows *time used*; the progress bar (neutral) shows *work done* from the checklist.
 
 ---
 
@@ -137,7 +140,9 @@ holidays (for business-day SLA)
 - **teams** — id, name, code, active
 - **team_members** — team_id, user_id, is_lead
 - **tickets** — id, number (`INC-000123`), type, title, description, team_id, priority, status, assignee_id?, reporter_id, sla_due_at, sla_paused_at?, sla_paused_total_minutes, first_response_at?, resolved_at?, resolution_note?, created_at, updated_at, search_vector (tsvector)
-- **ticket_events** — id, ticket_id, actor_id, kind (`created` | `note` | `status_changed` | `assigned` | `priority_changed` | `team_changed` | `field_changed`), body (for notes/reasons), payload jsonb (`{from, to}`), created_at
+- **ticket_steps** — id, ticket_id, position, text, done, done_by?, done_at?
+- **step_templates** — type, position, text (default steps per ticket type, editable by Admin)
+- **ticket_events** — id, ticket_id, actor_id, kind (`created` | `note` | `step_done` | `step_undone` | `step_added` | `step_removed` | `step_renamed` | `status_changed` | `assigned` | `priority_changed` | `team_changed` | `field_changed`), body (for notes/reasons), payload jsonb (`{from, to}`), created_at
 - **sla_policies** — priority, resolution_minutes, business_hours_only (bool)
 - **holidays** — date, name (Indonesian public holidays and cuti bersama)
 - **ticket_counters** — type, next_number (incremented inside a transaction so numbers never repeat)
